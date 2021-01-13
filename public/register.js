@@ -17,6 +17,7 @@ signupForm.addEventListener('submit', (e) => {
                 photoURL: "https://static.vecteezy.com/system/resources/thumbnails/000/364/628/original/Chef_Avatar_Illustration-03.jpg"
             }).then(function () {
                 console.log('update confirmed');
+                window.location('index.html');
             }).catch(function (error) {
                 console.log(error);
             });

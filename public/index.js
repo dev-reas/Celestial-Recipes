@@ -59,7 +59,7 @@ const setupRecipes = (data) => {
                         <p style="padding-left: 1vw">By: ${recipeCol.recipeAuthor}</p>
                     </div>
                     <div class="card-action center">
-                        <a href="view.html">Show this Recipe</a>
+                        <a>Show this Recipe</a>
                     </div>
                 </div>
             </div>
