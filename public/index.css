@@ -1,0 +1,49 @@
+  .main {
+    padding-left: 300px;
+  }
+
+  @media only screen and (max-width : 992px) {
+
+    header,
+    main,
+    footer {
+      padding-left: 0;
+    }
+  }
+
+  .nav-wrapper {
+    background-color: #b71c1c;
+  }
+
+  .dp {
+    padding-left: 10px;
+  }
+
+
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  .page-footer {
+    width: 100%;
+    background-color: #b71c1c;
+  }
+
+  .title {
+    margin-left: 40%;
+    font-weight: 700;
+    font-family: Courier New;
+    font-size: 50px;
+  }
+
+  .card .card-image img {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
