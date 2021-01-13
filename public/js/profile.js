@@ -30,6 +30,7 @@ function renderRecipe(doc) {
             </div>
         </div>
     `].join('');
+    
     const div = document.createElement('div');
     div.innerHTML = html;
     recipeList.appendChild(div);
@@ -60,8 +61,6 @@ const ProfileView = (user) => {
                 if (e.target && e.target.matches(".modal-trigger")) {
                     $(document).ready(function () {
                         $('.modal').modal();
-
-                        //now you can open modal from code
                         $('#modal1').modal('open');
 
                         let id = document.querySelector(`#${doc.id}`).getAttribute('id');

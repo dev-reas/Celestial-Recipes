@@ -71,4 +71,18 @@ const setupRecipes = (data) => {
     recipeList.innerHTML = html;
 }
 
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        const myVar = user.displayName;
+
+        const dev = document.querySelector('#display');
+
+        
+    }
+
+    else {
+        postRecipe(null);
+    }
+});
+
 
