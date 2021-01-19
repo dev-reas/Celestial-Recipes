@@ -1,17 +1,32 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {
-    // match /users/{userId} {
-          match /recipe/{recipeId} {
-          allow read: if true
-          allow create: if request.auth.uid != null;
-          allow update, delete: 
-          if request.auth != null && request.auth.uid == resource.data.recipeAuthorUID;
-      }
-    // }
+  	match /databases/{database}/documents {
+      match /recipe/{recipeId} {
+        allow read: if true;
+        allow create: if request.auth.uid != null;
+        allow update, delete: 
+        if request.auth.uid != null && request.auth.uid == resource.data.recipeAuthorUID;
+  	}
     
-    match /expenses/{expensesId} {
-        allow write, read: if request.auth.uid != null;
-      }
-  }
+    match /recipeInstruction/{recipeInstructionId} {
+        allow read: if true;
+        allow create: if request.auth.uid != null;
+        allow update, delete: 
+        if request.auth.uid != null && request.auth.uid == resource.data.userId;
+    }
+        
+    match /recipeIngredient/{recipeIngredientId} {
+        allow read: if true;
+        allow create: if request.auth.uid != null;
+        allow update, delete: 
+        if request.auth.uid != null && request.auth.uid == resource.data.userId;
+    }
+  
+  	match /users/{usersId} {
+        allow read: if request.auth.uid == resource.data.usersUID;
+        allow create: if request.auth.uid != null;
+        allow update, delete: 
+        if request.auth.uid != null && request.auth.uid == resource.data.userUID;
+  	}
+	}
 }
