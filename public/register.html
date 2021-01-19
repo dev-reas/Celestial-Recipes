@@ -65,7 +65,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
 
     <script>
     var firebaseConfig = {
@@ -80,9 +80,9 @@
     firebase.initializeApp(firebaseConfig);
 
     const auth = firebase.auth();
-    // const db = firebase.firestore();
+    const db = firebase.firestore();
 
-    // db.settings({timeStampsInSnapshots: true});
+    db.settings({timeStampsInSnapshots: true});
     </script>
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

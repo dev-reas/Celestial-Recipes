@@ -65,3 +65,4 @@ facebookSignIn.addEventListener('click', (e) => {
             var credential = error.credential;
         });
 });
+

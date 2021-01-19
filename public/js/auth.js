@@ -8,6 +8,10 @@ auth.onAuthStateChanged((user) => {
 
     else {
         setupUI();
+        if(window.location.href == 'http://localhost:5000/profile.html'){
+            var urlLink = "localhost:5000";
+            window.location.replace('login-page.html')
+        }
     }
 });
 

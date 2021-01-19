@@ -18,9 +18,19 @@ signupForm.addEventListener('submit', (e) => {
 
             }).then(function () {
                 console.log('update confirmed');
-                window.location('index.html');
+                window.location = 'index.html';
             }).catch(function (error) {
                 console.log(error);
+            });
+
+            db.collection('users').add({
+                userAddress: 'N/A',
+                userContact: 0000000,
+                userEmail: signupUser.email,
+                userImg: 'https://static.vecteezy.com/system/resources/thumbnails/000/364/628/original/Chef_Avatar_Illustration-03.jpg',
+                userJob: 'N/A',
+                userName: firstName + ' ' + lastName,
+                userUID: signupUser.uid,
             });
         }
     });

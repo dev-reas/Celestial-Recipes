@@ -7,8 +7,11 @@ auth.onAuthStateChanged((user) => {
 
     else {
         postRecipe(null);
+        var urlLink = "localhost:5000";
+        window.location.href(`localhost:5000/login-page.html`);
     }
 });
+let photoDownURL = '';
 
 const postRecipe = (user) => {
     var uploader = document.getElementById('uploader');
@@ -27,28 +30,73 @@ const postRecipe = (user) => {
         }, () => {
             task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                 console.log('File available at', downloadURL);
-                const createRecipe = document.querySelector('#create-recipe');
-                createRecipe.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    db.collection('recipe').add({
-                        recipeTitle: createRecipe['recipeTitle'].value,
-                        recipeDesc: createRecipe['recipeDesc'].value,
-                        recipeInstrct: createRecipe['recipeInstrct'].value,
-                        recipeIngrdnt: createRecipe['recipeIngrdnt'].value,
-                        recipeImg: downloadURL,
-                        recipeAuthor: user.displayName,
-                        recipeAuthorUID: user.uid,
-                        recipeAuthorPhoto: user.photoURL,
-                        recipeDate: new Date(firebase.firestore.Timestamp.now().seconds*1000).toLocaleDateString(),
-                    }).then(() => {
-                        createRecipe.reset();
-                        window.location = 'home.html';
-                    }).catch(err => {
-                        console.log(err.message);
-                    });
-                });
+                photoDownURL = downloadURL;
             });
         });
     });
+
+    const createRecipe = document.querySelector('#create-recipe');
+    createRecipe.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        db.collection('recipe').add({
+            recipeTitle: createRecipe['recipeTitle'].value,
+            recipeDesc: createRecipe['recipeDesc'].value,
+            recipeImg: photoDownURL,
+            recipeAuthor: user.displayName,
+            recipeAuthorUID: user.uid,
+            recipeAuthorPhoto: user.photoURL,
+            recipeDate: firebase.firestore.Timestamp.now(),
+        }).then(function (docRef) {
+
+            // textarea for instructions
+            var area = document.getElementById("recipeInstrct");
+            var lines = area.value.replace(/\r\n/g, "\n").split("\n");
+            const promises = [];
+            let i = 0;
+            lines.forEach(instrct => {
+                i += 1;
+                promises.push(db.collection('recipeInstruction').doc().set({
+                    instruction: instrct,
+                    order: i,
+                    recipeId: docRef.id,
+                    status: false,
+                    userId: user.uid,
+                }));
+            });
+
+            Promise.all(promises).then(results => {
+
+            }).catch(err => console.log(err.message));
+
+
+            //textarea for ingredients
+            var ingr = document.getElementById("recipeIngrdnt");
+            var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
+            const promisesIngr = [];
+            let k = 0;
+            linesIngr.forEach(ingr => {
+                k += 1;
+                promisesIngr.push(db.collection('recipeIngredient').doc().set({
+                    instruction: ingr,
+                    order: k,
+                    recipeId: docRef.id,
+                    status: false,
+                    userId: user.uid,
+                }));
+            });
+
+            Promise.all(promisesIngr).then(results => {
+
+            }).catch(err => console.log(err.message));
+
+
+            createRecipe.reset();
+            window.location = 'home.html';
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 }
+
 

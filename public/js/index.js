@@ -18,71 +18,41 @@ const setupUI = (user) => {
 };
 
 // get data
+const recipeList = document.querySelector('.recipes')
 db.collection('recipe').get().then(snapshot => {
-    setupRecipes(snapshot.docs);
-})
-
-const recipeList = document.querySelector('.recipes');
-const setupRecipes = (data) => {
-
-    let html = '';
-    data.forEach(doc => {
-        const recipeCol = doc.data();
-        console.log(recipeCol);
-
-        const stats = document.querySelectorAll('.authStats');
-        if(auth.currentUser != recipeCol.recipeAuthorUID)
-        {
-            stats.forEach(item => item.style.display = 'block');
-            console.log('same');
-        }
-        else{
-            console.log('not same');
-        }
-
-        const text = `
-            <div class="col l3 m4 s12" data-id="${doc.id}">
-                <div class="card sticky-action">
-                    <div class="card-reveal">
-                        <p>Reveal reveal</p>
-                        <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
-                        <p>${recipeCol.recipeDesc}</p>
-                    </div>
-                    <div class="card-action">
-                        <div class="center">${recipeCol.recipeTitle}</div>
-                        <a class="btn red btn-floating halfway-fab pulse activator left"><i class="material-icons">add</i></a>
-                    </div>
-                    <div class="card-image">
-                        <img src="${recipeCol.recipeImg}">
-                    </div>
-                    <div class="card-content">
-                        <p style="padding-left: 1vw">By: ${recipeCol.recipeAuthor}</p>
-                    </div>
-                    <div class="card-action center">
-                        <a>Show this Recipe</a>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        html += text;
+    snapshot.docs.forEach(doc => {
+        renderRecipe(doc);
     });
-
-    recipeList.innerHTML = html;
-}
-
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        const myVar = user.displayName;
-
-        const dev = document.querySelector('#display');
-
-        
-    }
-
-    else {
-        postRecipe(null);
-    }
 });
 
-
+function renderRecipe(doc) {
+    let event = new Date(doc.data().recipeDate.toDate());
+    let html = [
+        `
+        <div class="col l3 m4 s12" id="${doc.id}">
+            <div class="card">
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                        <i class="material-icons right">close</i>
+                    </span>
+                    <h5>${doc.data().recipeTitle}</h5>
+                    <p>${doc.data().recipeDesc}</p>
+                    <p>${event.toLocaleString('en-GB')}</p>
+                </div>
+                <div class="card-action">
+                    <div class="center">${doc.data().recipeTitle}</div>
+                    <a class="btn red btn-floating halfway-fab pulse activator left"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-image">
+                    <img src="${doc.data().recipeImg}">
+                </div>
+                <div class="card-content"><p style="padding-left: 1vw">By: ${doc.data().recipeAuthor}</p></div>
+                <div class="card-action center"><a>Show this Recipe</a></div>
+            </div>
+        </div>
+    `].join('');
+    
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    recipeList.appendChild(div);
+}
