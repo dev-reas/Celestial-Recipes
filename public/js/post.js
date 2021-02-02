@@ -1,14 +1,11 @@
 // post data with users info
 auth.onAuthStateChanged((user) => {
     if (user) {
-        console.log('user logged in :', user);
         postRecipe(user);
     }
 
     else {
         postRecipe(null);
-        var urlLink = "localhost:5000";
-        window.location.href(`localhost:5000/login-page.html`);
     }
 });
 let photoDownURL = '';
@@ -38,58 +35,27 @@ const postRecipe = (user) => {
     const createRecipe = document.querySelector('#create-recipe');
     createRecipe.addEventListener('submit', (e) => {
         e.preventDefault();
+        var area = document.getElementById("recipeInstrct");
+        var lines = area.value.replace(/\r\n/g, "\n").split("\n");
+        var ingr = document.getElementById("recipeIngrdnt");
+        var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
 
         db.collection('recipe').add({
             recipeTitle: createRecipe['recipeTitle'].value,
             recipeDesc: createRecipe['recipeDesc'].value,
+            mainIngredient: createRecipe['mainIngredient'].value,
+            cuisine: createRecipe['cuisine'].value,
+            mealType: createRecipe['meal'].value,
+            occasion: createRecipe['occasion'].value,
+            prepTime: createRecipe['prepTime'].value,
+            instruction: lines,
+            ingredient: linesIngr,
             recipeImg: photoDownURL,
             recipeAuthor: user.displayName,
             recipeAuthorUID: user.uid,
             recipeAuthorPhoto: user.photoURL,
             recipeDate: firebase.firestore.Timestamp.now(),
-        }).then(function (docRef) {
-
-            // textarea for instructions
-            var area = document.getElementById("recipeInstrct");
-            var lines = area.value.replace(/\r\n/g, "\n").split("\n");
-            const promises = [];
-            let i = 0;
-            lines.forEach(instrct => {
-                i += 1;
-                promises.push(db.collection('recipeInstruction').doc().set({
-                    instruction: instrct,
-                    order: i,
-                    recipeId: docRef.id,
-                    status: false,
-                    userId: user.uid,
-                }));
-            });
-
-            Promise.all(promises).then(results => {
-
-            }).catch(err => console.log(err.message));
-
-
-            //textarea for ingredients
-            var ingr = document.getElementById("recipeIngrdnt");
-            var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
-            const promisesIngr = [];
-            let k = 0;
-            linesIngr.forEach(ingr => {
-                k += 1;
-                promisesIngr.push(db.collection('recipeIngredient').doc().set({
-                    instruction: ingr,
-                    order: k,
-                    recipeId: docRef.id,
-                    status: false,
-                    userId: user.uid,
-                }));
-            });
-
-            Promise.all(promisesIngr).then(results => {
-
-            }).catch(err => console.log(err.message));
-
+        }).then((docRef) => {
 
             createRecipe.reset();
             window.location = 'home.html';
@@ -97,6 +63,61 @@ const postRecipe = (user) => {
             console.log(err);
         });
     });
+
+    $('.modal').modal({
+        onCloseEnd() {
+            createRecipe.reset();
+        }
+    })
 }
 
+// textarea for instructions
+            // var area = document.getElementById("recipeInstrct");
+            // var lines = area.value.replace(/\r\n/g, "\n").split("\n");
+            // const promises = [];
+            // let i = 0;
+            // lines.forEach(instrct => {
+            //     i += 1;
+            //     promises.push(db.collection('recipeInstruction').doc().set({
+            //         instruction: instrct,
+            //         order: i,
+            //         recipeId: docRef.id,
+            //         status: false,
+            //         userId: user.uid,
+            //     }));
+            // });
 
+            // Promise.all(promises).then(results => {
+
+            // }).catch(err => console.log(err.message));
+
+
+            // //textarea for ingredients
+            // var ingr = document.getElementById("recipeIngrdnt");
+            // var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
+            // const promisesIngr = [];
+            // let k = 0;
+            // linesIngr.forEach(ingr => {
+            //     k += 1;
+            //     promisesIngr.push(db.collection('recipeIngredient').doc().set({
+            //         instruction: ingr,
+            //         order: k,
+            //         recipeId: docRef.id,
+            //         status: false,
+            //         userId: user.uid,
+            //     }));
+            // });
+
+            // Promise.all(promisesIngr).then(results => {
+
+            // }).catch(err => console.log(err.message));
+
+// const createRecipe = document.querySelector('#create-recipe');
+// createRecipe.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     console.log(createRecipe['mainIngredient'].value);
+//     console.log(createRecipe['cuisine'].value);
+//     console.log(createRecipe['meal'].value);
+//     console.log(createRecipe['occasion'].value);
+//     console.log(createRecipe['prepTime'].value);
+// });

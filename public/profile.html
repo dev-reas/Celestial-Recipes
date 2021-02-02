@@ -1,48 +1,202 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recide app</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="shortcut icon" type="image/x-icon" href="fabicon.ico">
+    <link rel="stylesheet" href="css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
+
 <body>
     <nav class="z-depth-3">
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo center">Logo</a>
-          <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li>
-                <a href="#!" data-target="slide-out" class="sidenav-trigger show-on-large">
-                    <i class="material-icons">
-                        menu
-                    </i>
-                </a>
-            </li>
-          </ul>
+            <a class="brand-logo center">
+                <img src="assets/logo.png" alt="" class="logo">
+            </a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li>
+                    <a data-target="slide-out" class="sidenav-trigger show-on-large">
+                        <i class="material-icons">
+                            menu
+                        </i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="search.html">
+                        <i class="material-icons right">filter_list</i>Filter and find your taste
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 
     <ul id="slide-out" class="sidenav">
-        <li class="logged-in"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your Recipes</a></li>
-        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your Recipes</a></li>
-        <li><div class="divider"></div></li>
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="assets/test.jpeg">
+                </div>
+                <div class="logged-in authUserView">
+
+                </div>
+            </div>
+        </li>
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+                Recipes</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
         <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
         <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
-        <li class="logged-in"><a class="waves-effect" href="#!" id="signout"><i class="material-icons">close</i>Sign out</a></li>
+        <li class="logged-in"><a class="waves-effect" href="#!" id="web"><i class="material-icons">close</i>Sign
+                out</a></li>
     </ul>
 
-      
+    <ul id="mobile-demo" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="assets/test.jpeg">
+                </div>
+                <div class="logged-in authUserView">
+
+                </div>
+            </div>
+        </li>
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+                Recipes</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
+        <li class="logged-in"><a class="waves-effect" href="#!" id="mobile"><i class="material-icons">close</i>Sign
+                out</a></li>
+    </ul>
+    <!-- <div class="fixed-action-btn ">
+        
+    </div> -->
+
+    <div class="fixed-action-btn logged-in">
+        <a class="btn-floating btn-large amber darken-1 pulse btn modal-trigger" href="#modal-create">
+            <i class="material-icons">
+                edit
+            </i>
+        </a>
+    </div>
+
     <div class="container-fluid">
-        <div class="row recipes">
-            
+        <div class="s12 m6">
+            <div class="container">
+                <div class="content-profile-page">
+                    <div class="profile-user-page card">
+                        <div class="img-user-profile">
+                            <div class="profile-bgHome">
+                            </div>
+                            <img id="profileImg" class="avatar halfway-fab responsive-img" />
+                        </div>
+                        <div class="user-profile-data">
+                            <h3 id="profileName" style="font-family: 'Sofia', sans-serif;"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="container">
+                <div class="right-side">
+                    <div class="nav">
+                        <ul>
+                            <li onclick="tabs(0)" class="user-post active">Hello, it's all about me
+                                <i class="tiny material-icons left">perm_identity</i></li>
+                            <li onclick="tabs(1)" class="user-post">Recipe
+                                <i class="tiny material-icons left">restaurant</i>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-posts tab">
+                            <div class="left-side">
+                                <div class="profile-side">
+                                    <table class="responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Overview</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">badge</i>
+                                                    <p class="user-mail" id="dataName"> </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">contact_mail</i>
+                                                    <p class="user-mail" id="dataEmail">
+                                                        
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">contact_phone</i>
+                                                    <p class="user-mail" id="dataNumber"></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">home</i>
+                                                    <p class="user-mail" id="dataAddress"></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">work</i>
+                                                    <p class="user-mail" id="dataJob">
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="profile-btn" style="margin-top: 10px;">
+                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
+                                            <i class="fas fa-edit"></i>
+                                            Edit Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-reviews tab">
+                        <div class="row recipes">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="modal1" class="modal">
+
+        <div id="modal-create" class="modal">
             <div class="modal-content">
-              <h4>Edit your recipe</h4>
+                <h4>Share your recipe</h4>
                 <div class="row">
-                    <form class="col s12" id="update-recipe">
+                    <form class="col s12" id="create-recipe">
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">title</i>
@@ -65,7 +219,126 @@
                                 <label for="recipeIngrdnt">Recipe Ingredient</label>
                             </div>
                         </div>
-                        
+                        <div class="input-field col s12">
+                            <select required id="mainIngredient">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Eggs">Eggs</option>
+                                <option value="Chicken">Chicken</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Fish">Fish</option>
+                                <option value="Bread">Bread</option>
+                                <option value="Lamb">Lamb</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Beef">Beef</option>
+                                <option value="Cheese">Cheese</option>
+                                <option value="Pork">Pork</option>
+                                <option value="Turkey">Turkey</option>
+                                <option value="Goose">Goose</option>
+                                <option value="Mussels">Mussels</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Chocolate">Chocolate</option>
+                                <option value="Duck">Duck</option>
+                                <option value="Butternut squash">Butternut squash</option>
+                                <option value="Potato">Potato</option>
+                                <option value="Sausage">Sausage</option>
+                                <option value="Salmon">Salmon</option>
+                                <option value="Courgette">Courgette</option>
+                                <option value="Aubergine">Aubergine</option>
+                                <option value="Couscous">Couscous</option>
+                                <option value="Mince">Mince</option>
+                                <option value="Kale">Kale</option>
+                                <option value="Lentil">Lentil</option>
+                                <option value="Rhubarb">Rhubarb</option>
+                                <option value="Steak">Steak</option>
+                                <option value="Tofu">Tofu</option>
+                                <option value="Mackerel">Mackerel</option>
+                                <option value="Mushroom">Mushroom</option>
+                                <option value="Cauliflower">Cauliflower</option>
+                                <option value="Brocolli">Brocolli</option>
+                                <option value="Tuna">Tuna</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Spinach">Spinach</option>
+                                <option value="Chorizo">Chorizo</option>
+                                <option value="Canned-Food">Canned-Food</option>
+                            </select>
+                            <label>Main Ingredient</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="cuisine">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="French">French</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Greek">Greek</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="Mediterranean">Mediterranean</option>
+                                <option value="Lebanese">Lebanese</option>
+                                <option value="Moroccan">Moroccan</option>
+                                <option value="Turkish">Turkish</option>
+                                <option value="Thai">Thai</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Cajun">Cajun</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Caribbean">Caribbean</option>
+                                <option value="German">German</option>
+                                <option value="Russian">Russian</option>
+                                <option value="American">American</option>
+                                <option value="Hungarian">Hungarian</option>
+                                <option value="Philippines">Philippines</option>
+                                <option value="Non-Specific">Non-Specific</option>
+                            </select>
+                            <label>Type of Cuisine</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="meal">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Brunch">Brunch</option>
+                                <option value="Elevenses">Elevenses</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Afternoon Tea">Afternoon Tea</option>
+                                <option value="Supper">Supper</option>
+                                <option value="Dinner">Dinner</option>
+                            </select>
+                            <label>Type of Meal</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="occasion">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="New Year">New Year</option>
+                                <option value="Christmas">Christmas</option>
+                                <option value="Anniversary">Thanksgiving</option>
+                                <option value="Father's Day">Father's Day</option>
+                                <option value="Mother's Day">Mother's Day</option>
+                                <option value="Halloween">Halloween</option>
+                                <option value="Valentines Day">Valentines Day</option>
+                                <option value="Anniversary">Anniversary</option>
+                                <option value="Birthday">Birthday</option>
+                                <option value="Congratulations">Congratulations</option>
+                                <option value="Graduation">Graduation</option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Non-Specific">Non-Specific</option>
+                            </select>
+                            <label>For what Occasion?</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="prepTime">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Less than 1 hour">Less than 1 hour</option>
+                                <option value="1 hour">1 hour</option>
+                                <option value="1 to 2 hours">1 to 2 hours</option>
+                                <option value="2 to 3 hours">2 to 3 hours</option>
+                                <option value="3 hours or more">3 hours or more</option>
+                            </select>
+                            <label>Preparation and Cooking time</label>
+                        </div>
+
                         <div class="file-field input-field">
                             <div class="btn">
                                 <span>File</span>
@@ -78,55 +351,299 @@
                                 <div class="determinate" id="uploader" style="width: 0%"></div>
                             </div>
                         </div>
-                        
-                        <button class="btn waves-effect waves-light">Share it now
-                            <i class="material-icons right">share</i>
-                        </button>
-            
+
+                        <div class="modal-footer">
+                            <button class="btn  amber darken-1 waves-effect waves-light" type="submit"
+                                name="action">Share it now
+                                <i class="material-icons right">share</i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-          </div>
+        </div>
+
+        <!-- <div id="modal-profile" class="modal">
+            <div class="modal-content">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="small material-icons prefix">accessibility</i>
+                            <input id="first_name" type="text" class="validate" data-length="10">
+                            <label for="first_name">First Name</label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <input id="last_name" type="text" class="validate">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="small material-icons prefix">contact_mail</i>
+                            <input id="email" type="email" class="validate">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">phone</i>
+                            <input id="contact" type="tel" class="validate">
+                            <label for="contact">Contact #</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">map</i>
+                            <input id="address" type="text" class="validate">
+                            <label for="address">Address </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">map</i>
+                            <input id="occupation" type="text" class="validate">
+                            <label for="occupation">Profession </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn  amber darken-1 waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div> -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Edit your recipe</h4>
+                <div class="row">
+                    <form class="col s12" id="update-recipe">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">title</i>
+                                <textarea id="updateRecipeTitle" class="materialize-textarea" required></textarea>
+                                <label for="updateRecipeTitle">Recipe Title</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">description</i>
+                                <textarea id="updateRecipeDesc" class="materialize-textarea" required></textarea>
+                                <label for="updateRecipeDesc">Recipe Description</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">list</i>
+                                <textarea id="updateRecipeInstrct" class="materialize-textarea" required></textarea>
+                                <label for="updateRecipeInstrct">Recipe Instruction</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">menu_book</i>
+                                <textarea id="updateRecipeIngrdnt" class="materialize-textarea" required></textarea>
+                                <label for="updateRecipeIngrdnt">Recipe Ingredient</label>
+                            </div>
+                        </div>
+                        <div class="input-field col s12">
+                            <select required id="updateMainIngredient">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Eggs">Eggs</option>
+                                <option value="Chicken">Chicken</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Fish">Fish</option>
+                                <option value="Bread">Bread</option>
+                                <option value="Lamb">Lamb</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Beef">Beef</option>
+                                <option value="Cheese">Cheese</option>
+                                <option value="Pork">Pork</option>
+                                <option value="Turkey">Turkey</option>
+                                <option value="Goose">Goose</option>
+                                <option value="Mussels">Mussels</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Chocolate">Chocolate</option>
+                                <option value="Duck">Duck</option>
+                                <option value="Butternut squash">Butternut squash</option>
+                                <option value="Potato">Potato</option>
+                                <option value="Sausage">Sausage</option>
+                                <option value="Salmon">Salmon</option>
+                                <option value="Courgette">Courgette</option>
+                                <option value="Aubergine">Aubergine</option>
+                                <option value="Couscous">Couscous</option>
+                                <option value="Mince">Mince</option>
+                                <option value="Kale">Kale</option>
+                                <option value="Lentil">Lentil</option>
+                                <option value="Rhubarb">Rhubarb</option>
+                                <option value="Steak">Steak</option>
+                                <option value="Tofu">Tofu</option>
+                                <option value="Mackerel">Mackerel</option>
+                                <option value="Mushroom">Mushroom</option>
+                                <option value="Cauliflower">Cauliflower</option>
+                                <option value="Brocolli">Brocolli</option>
+                                <option value="Tuna">Tuna</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Spinach">Spinach</option>
+                                <option value="Chorizo">Chorizo</option>
+                                <option value="Canned-Food">Canned-Food</option>
+                            </select>
+                            <label>Main Ingredient</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="updateCuisine">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="French">French</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Greek">Greek</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="Mediterranean">Mediterranean</option>
+                                <option value="Lebanese">Lebanese</option>
+                                <option value="Moroccan">Moroccan</option>
+                                <option value="Turkish">Turkish</option>
+                                <option value="Thai">Thai</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Cajun">Cajun</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Caribbean">Caribbean</option>
+                                <option value="German">German</option>
+                                <option value="Russian">Russian</option>
+                                <option value="American">American</option>
+                                <option value="Hungarian">Hungarian</option>
+                                <option value="Philippines">Philippines</option>
+                                <option value="Non-Specific">Non-Specific</option>
+                            </select>
+                            <label>Type of Cuisine</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="updateMeal">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Brunch">Brunch</option>
+                                <option value="Elevenses">Elevenses</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Afternoon Tea">Afternoon Tea</option>
+                                <option value="Supper">Supper</option>
+                                <option value="Dinner">Dinner</option>
+                            </select>
+                            <label>Type of Meal</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="updateOccasion">
+                                <option value="" disabled selected>Choose options here.</option>
+                                <option value="New Year">New Year</option>
+                                <option value="Christmas">Christmas</option>
+                                <option value="Anniversary">Thanksgiving</option>
+                                <option value="Father's Day">Father's Day</option>
+                                <option value="Mother's Day">Mother's Day</option>
+                                <option value="Halloween">Halloween</option>
+                                <option value="Valentines Day">Valentines Day</option>
+                                <option value="Anniversary">Anniversary</option>
+                                <option value="Birthday">Birthday</option>
+                                <option value="Congratulations">Congratulations</option>
+                                <option value="Graduation">Graduation</option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Non-Specific">Non-Specific</option>
+                            </select>
+                            <label>For what Occasion?</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select required id="updatePrepTime">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Less than 1 hour">Less than 1 hour</option>
+                                <option value="1 hour">1 hour</option>
+                                <option value="1 to 2 hours">1 to 2 hours</option>
+                                <option value="2 to 3 hours">2 to 3 hours</option>
+                                <option value="3 hours or more">3 hours or more</option>
+                            </select>
+                            <label>Preparation and Cooking time</label>
+                        </div>
+                </div>
+
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" id="updateRecipeFile" required>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" required>
+                    </div>
+                    <div class="progress">
+                        <div class="determinate" id="updateUploader" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <button class="btn waves-effect waves-light">Share it now
+                    <i class="material-icons right">share</i>
+                </button>
+
+                </form>
+            </div>
+        </div>
     </div>
 
 
 
+
+
+
     <!-- javascript list -->
-    
+
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
 
     <script>
-    var firebaseConfig = {
-        apiKey: "AIzaSyCWXIbMivGe7RDtn_IpzVuvGiJk4OPXXyo",
-        authDomain: "celestial-recipes.firebaseapp.com",
-        projectId: "celestial-recipes",
-        storageBucket: "celestial-recipes.appspot.com",
-        messagingSenderId: "900996700436",
-        appId: "1:900996700436:web:ec3421cbfb544f8b118a01",
-        measurementId: "G-9B5SZEH9L4"
-    };
-    firebase.initializeApp(firebaseConfig);
+        var firebaseConfig = {
+            apiKey: "AIzaSyCWXIbMivGe7RDtn_IpzVuvGiJk4OPXXyo",
+            authDomain: "celestial-recipes.firebaseapp.com",
+            projectId: "celestial-recipes",
+            storageBucket: "celestial-recipes.appspot.com",
+            messagingSenderId: "900996700436",
+            appId: "1:900996700436:web:ec3421cbfb544f8b118a01",
+            measurementId: "G-9B5SZEH9L4"
+        };
+        firebase.initializeApp(firebaseConfig);
 
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const store = firebase.storage();
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const store = firebase.storage();
 
-    db.settings({timeStampsInSnapshots: true});
+        db.settings({
+            timeStampsInSnapshots: true
+        });
     </script>
 
     <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    <script src="js/materialize.min.js"></script>
+    <script src="https://kit.fontawesome.com/26d4a64054.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             $(".sidenav").sidenav();
         });
 
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
     </script>
     <script type="text/javascript" src="js/profile.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/post.js"></script>
+    <script type="text/javascript" src="js/index-frontend.js"></script>
+    <script type="text/javascript" src="js/profile-frontend.js"></script>
     <script type="text/javascript" src="js/signout.js"></script>
 </body>
+
 </html>

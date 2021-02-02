@@ -1,10 +1,355 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Celestial Recipe</title>
+    <link rel="shortcut icon" type="image/x-icon" href="fabicon.ico">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/view.css">
 </head>
+
 <body>
-    
+    <nav class="z-depth-3">
+        <div class="nav-wrapper">
+            <a class="brand-logo center">
+                <img src="assets/logo.png" alt="" class="logo">
+            </a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li>
+                    <a data-target="slide-out" class="sidenav-trigger show-on-large">
+                        <i class="material-icons">
+                            menu
+                        </i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="search.html">
+                        <i class="material-icons right">filter_list</i>Filter and find your taste
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="assets/test.jpeg">
+                </div>
+                <div class="logged-in authUserView">
+
+                </div>
+            </div>
+        </li>
+        <li class="logged-out"><a class="waves-effect" href="login-page.html"><i class="material-icons">login</i>Sign in
+                now!</a></li>
+        <li class="logged-out"><a class="waves-effect" href="register.html"><i
+                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+                Recipes</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
+        <li class="logged-in"><a class="waves-effect" href="#!" id="web"><i class="material-icons">close</i>Sign
+                out</a></li>
+    </ul>
+
+    <ul id="mobile-demo" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="assets/test.jpeg">
+                </div>
+                <div class="logged-in authUserView">
+
+                </div>
+            </div>
+        </li>
+        <li class="logged-out"><a class="waves-effect" href="login-page.html"><i class="material-icons">login</i>Sign in
+                now!</a></li>
+        <li class="logged-out"><a class="waves-effect" href="register.html"><i
+                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+                Recipes</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
+        <li class="logged-in"><a class="waves-effect" href="#!" id="mobile"><i class="material-icons">close</i>Sign
+                out</a></li>
+    </ul>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 2%;">
+            <div class="col s6 m6">
+                <div class="card-panel z-depth-3">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <h1 class="flow-text" id="recipeTitle">Title here</h1>
+                        </span>
+                    </div>
+                    <div class="card-action">
+                        <div class="profile">
+                            <img id="recipeAuthorImage" alt="profile-image" class="circle responsive-img">
+                            <span class="authorName">
+                                <p id="recipeAuthor">text</p>
+                                <p class="meta flow-text" id="recipeDate"></p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m6">
+                <img class="responsive-img materialboxed" src="assets/pexels-ella-olsson-1640777.jpg"
+                    alt="recipe-image">
+            </div>
+        </div>
+        <div class="row">
+            <div class="grid-example col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s4"><a class="active" href="#test2"><i
+                                        class="Tiny material-icons">description</i>Description</a></li>
+                            <li class="tab col s4"><a href="#test1" id="show-hidden-menu"><i
+                                        class="Tiny material-icons">receipt</i>Ingredients</a></li>
+                            <li class="tab col s4"><a href="#test3"><i
+                                        class="Tiny material-icons">mode_edit</i>Instruction</a></li>
+
+
+                        </ul>
+                    </div>
+                    <div id="test2" class="col s12 row">
+                        <div class="container center">
+                            <p class="flow-text" id="recipeDesc"></p>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="container-fluid hideOverflow">
+                            <div class="col s12">
+                                <div class="col s4">
+                                    <blockquote>
+                                        <div class="tags">
+                                            <i class="material-icons textSize">
+                                                kitchen
+                                            </i>
+                                            <span class="text-tags">
+                                                <p class="headerTag">Main Ingredient</p>
+                                                <p class="infoTag" id="mainIngredient"></p>
+                                            </span>
+
+                                        </div>
+                                    </blockquote>
+                                </div>
+
+                                <div class="col s4">
+                                    <blockquote>
+                                        <div class="tags">
+                                            <i class="material-icons textSize">
+                                                ramen_dining
+                                            </i>
+                                            <span class="text-tags">
+                                                <p class="headerTag">Cuisine</p>
+                                                <p class="infoTag" id="cuisine"></p>
+                                            </span>
+
+                                        </div>
+                                    </blockquote>
+                                </div>
+
+                                <div class="col s4">
+                                    <blockquote>
+                                        <div class="tags">
+                                            <i class="material-icons textSize">
+                                                dinner_dining
+                                            </i>
+                                            <span class="text-tags">
+                                                <p class="headerTag">Type of Meal</p>
+                                                <p class="infoTag" id="meal"></p>
+                                            </span>
+
+                                        </div>
+                                    </blockquote>
+                                </div>
+                            </div>
+
+                            <div class="col s12">
+                                <div class="col s4">
+                                    <blockquote>
+                                        <div class="tags">
+                                            <i class="material-icons textSize">
+                                                celebration
+                                            </i>
+                                            <span class="text-tags">
+                                                <p class="headerTag">Occasion</p>
+                                                <p class="infoTag" id="occasion"></p>
+                                            </span>
+
+                                        </div>
+                                    </blockquote>
+                                </div>
+
+                                <div class="col s4 m6">
+                                    <blockquote>
+                                        <div class="tags">
+                                            <i class="material-icons textSize">
+                                                access_time
+                                            </i>
+                                            <span class="text-tags">
+                                                <p class="headerTag">Preparation and Cooking</p>
+                                                <p class="infoTag" id="prepTime"></p>
+                                            </span>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="test1" class="col s12">
+                        <ul class="collection ingredientCol">
+
+                        </ul>
+                    </div>
+                    <div id="test3" class="col s12">
+                        <ul class="collection instructionCol">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Celestial Dragon</h5>
+                    </div>
+                    <div class="col l3 s12">
+                        <p class="grey-text text-lighten-4">“The most remarkable thing about my mother is that for
+                            thirty
+                            years she
+                            served the family nothing but leftovers. The original meal has never been found.”
+                            ― Calvin Trillin</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Contact Us @</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!"><i class="fab fa-facebook"> &nbsp
+                                        Dragon</i></a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!"><i class="fab fa-instagram-square"> &nbsp
+                                        Celestial</i></a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!"><i class="fab fa-twitter"> &nbsp
+                                        Celestialdragon</i></a>
+                            </li>
+                            <li><a class="grey-text text-lighten-3" href="#!"><i class="fas fa-envelope"> &nbsp
+                                        Celestialdragon@gmail.com</i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2021 Copyright Text
+                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- javascript list -->
+
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyCWXIbMivGe7RDtn_IpzVuvGiJk4OPXXyo",
+                authDomain: "celestial-recipes.firebaseapp.com",
+                projectId: "celestial-recipes",
+                storageBucket: "celestial-recipes.appspot.com",
+                messagingSenderId: "900996700436",
+                appId: "1:900996700436:web:ec3421cbfb544f8b118a01",
+                measurementId: "G-9B5SZEH9L4"
+            };
+            firebase.initializeApp(firebaseConfig);
+
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            const store = firebase.storage();
+
+            db.settings({
+                timeStampsInSnapshots: true
+            });
+        </script>
+
+        <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".sidenav").sidenav();
+            });
+
+            $(document).ready(function () {
+                $(".sidenav-demo").sidenav();
+            });
+
+            $(document).ready(function () {
+                $('select').formSelect();
+            });
+
+            $(document).ready(function () {
+                $('.modal').modal();
+            });
+
+            $(document).ready(function () {
+                $('.fixed-action-btn').floatingActionButton();
+            });
+
+            $(document).ready(function () {
+                $('.slider').slider();
+            });
+
+            $(document).ready(function () {
+                $('.tabs').tabs();
+            });
+
+            $(document).ready(function () {
+                $('.materialboxed').materialbox();
+            });
+        </script>
+
+        <script type="text/javascript" src="js/view.js"></script>
+        <script type="text/javascript" src="js/auth.js"></script>
+        <script type="text/javascript" src="js/signout.js"></script>
 </body>
+
 </html>

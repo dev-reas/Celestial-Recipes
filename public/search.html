@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestial Recipes</title>
+    <title>Recide app</title>
 
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/materialize.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/search.css">
 </head>
 
 <body>
@@ -23,18 +25,22 @@
                     </a>
                 </li>
             </ul>
-            <ul class="right">
-                <li class="right">
-                    Filter and find your taste
+            <ul class="right hide-on-med-and-down">
+                <li class="active"><a href="#">
+                        <i class="material-icons right">filter_list</i>Filter and find your taste</a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <ul id="slide-out" class="sidenav">
-        <li class="active"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
+        <li class="logged-out"><a class="waves-effect" href="login-page.html"><i class="material-icons">login</i>Sign in
+                now!</a></li>
+        <li class="logged-out"><a class="waves-effect" href="register.html"><i
+                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
+        <li class="logged-in"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
                 Recipes</a></li>
-        <li><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
             <div class="divider"></div>
@@ -46,9 +52,13 @@
     </ul>
 
     <ul id="mobile-demo" class="sidenav">
-        <li class="active"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
+        <li class="logged-out"><a class="waves-effect" href="login-page.html"><i class="material-icons">login</i>Sign in
+                now!</a></li>
+        <li class="logged-out"><a class="waves-effect" href="register.html"><i
+                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
+        <li class="logged-in"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
                 Recipes</a></li>
-        <li><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
             <div class="divider"></div>
@@ -59,33 +69,26 @@
                 out</a></li>
     </ul>
 
+    <div class="container modal-div">
+        <a class="waves-effect waves-light btn modal-trigger red lighten-3" href="#modal1">
+            <i class="material-icons left">search</i>Filter your taste by Main
+            Ingredient, Type of Cuisine, Meal Type, Occasion and Prep Time</a>
+    </div>
+    <div class="container-fluid">
+        <div class="row recipes">
 
-    <div class="row">
-        <form class="col s12" id="create-recipe">
-            <div class="row">
+        </div>
+        <div id="search-data" hidden>
+
+        </div>
+    </div>
+
+    <div id="modal1" class="modal">
+        <form class="col s12" id="modal-submit">
+            <div class="modal-content">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">title</i>
-                    <textarea id="recipeTitle" class="materialize-textarea" required></textarea>
-                    <label for="recipeTitle">Recipe Title</label>
-                </div>
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">description</i>
-                    <textarea id="recipeDesc" class="materialize-textarea" required></textarea>
-                    <label for="recipeDesc">Recipe Description</label>
-                </div>
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">list</i>
-                    <textarea id="recipeInstrct" class="materialize-textarea" required></textarea>
-                    <label for="recipeInstrct">Recipe Instruction</label>
-                </div>
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">menu_book</i>
-                    <textarea id="recipeIngrdnt" class="materialize-textarea" required></textarea>
-                    <label for="recipeIngrdnt">Recipe Ingredient</label>
-                </div>
-                <div class="input-field col s12">
-                    <select required id="mainIngredient">
-                        <option value="" disabled selected>Choose options here.</option>
+                    <select id="mainIngredient">
+                        <option value="" selected>Any option here</option>
                         <option value="Vegetables">Vegetables</option>
                         <option value="Eggs">Eggs</option>
                         <option value="Chicken">Chicken</option>
@@ -130,8 +133,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select required id="cuisine">
-                        <option value="" disabled selected>Choose options here.</option>
+                    <select id="cuisine">
+                        <option value="" selected>Any option here</option>
                         <option value="French">French</option>
                         <option value="Chinese">Chinese</option>
                         <option value="Italian">Italian</option>
@@ -157,8 +160,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select required id="meal">
-                        <option value="" disabled selected>Choose your option</option>
+                    <select id="meal">
+                        <option value="" selected>Any option here</option>
                         <option value="Breakfast">Breakfast</option>
                         <option value="Brunch">Brunch</option>
                         <option value="Elevenses">Elevenses</option>
@@ -172,8 +175,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select required id="occasion">
-                        <option value="" disabled selected>Choose options here.</option>
+                    <select id="occasion">
+                        <option value="" selected>Any option here</option>
                         <option value="New Year">New Year</option>
                         <option value="Christmas">Christmas</option>
                         <option value="Anniversary">Thanksgiving</option>
@@ -192,8 +195,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select required id="prepTime">
-                        <option value="" disabled selected>Choose your option</option>
+                    <select id="prepTime">
+                        <option value="" selected>Any option here</option>
                         <option value="Less than 1 hour">Less than 1 hour</option>
                         <option value="1 hour">1 hour</option>
                         <option value="1 to 2 hours">1 to 2 hours</option>
@@ -203,34 +206,11 @@
                     <label>Preparation and Cooking time</label>
                 </div>
             </div>
-
-
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>File</span>
-                    <input type="file" id="recipeFile" required>
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" required>
-                </div>
-                <div class="progress">
-                    <div class="determinate" id="uploader" style="width: 0%"></div>
-                </div>
+            <div class="modal-footer">
+                <button class="modal-close waves-effect waves-green btn-flat">Agree</button>
             </div>
-
-            <button class="btn waves-effect waves-light">Share it now
-                <i class="material-icons right">share</i>
-            </button>
-
         </form>
     </div>
-
-
-
-
-
-
-
 
     <!-- javascript list -->
 
@@ -261,7 +241,7 @@
     </script>
 
     <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="js/materialize.min.js"></script>
+    <script src="js/materialize.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -269,11 +249,20 @@
         });
 
         $(document).ready(function () {
+            $(".sidenav-demo").sidenav();
+        });
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+
+        $(document).ready(function () {
             $('select').formSelect();
         });
     </script>
+    <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
     <script type="text/javascript" src="js/signout.js"></script>
-    <script type="text/javascript" src="js/post.js"></script>
 </body>
 
 </html>
