@@ -329,3 +329,24 @@ body {
     font-size: 2vw;
 }
 
+#shoppingIdAlternate {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 2%;
+}
+
+#shoppingIdAlternate .borderFirst {
+    border-top: 1px solid #c62828;
+    border-bottom: 1px solid #c62828;
+    padding: 2%;
+    margin-right: 2%;
+}
+
+#shoppingIdAlternate .borderFirst .shoppingAltDiv{
+    border-top: 1px solid #ffea00;
+    border-bottom: 1px solid #ffea00;
+    padding: 0.5px;
+}
+
+

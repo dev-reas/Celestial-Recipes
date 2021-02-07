@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -97,7 +96,7 @@
 
     <div class="container-fluid">
         <div class="s12 m6">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="content-profile-page">
                     <div class="profile-user-page card">
                         <div class="img-user-profile">
@@ -114,7 +113,7 @@
 
 
 
-            <div class="container">
+            <div class="container-fluid">
                 <div class="right-side">
                     <div class="nav">
                         <ul>
@@ -123,70 +122,89 @@
                             <li onclick="tabs(1)" class="user-post">Recipe
                                 <i class="tiny material-icons left">restaurant</i>
                             </li>
-
+                            <li onclick="tabs(2)" class="user-post">Shopping List
+                                <i class="tiny material-icons left">shopping_cart</i>
+                            </li>
                         </ul>
                     </div>
                     <div class="profile-body">
                         <div class="profile-posts tab">
-                            <div class="left-side">
-                                <div class="profile-side">
-                                    <table class="responsive-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Overview</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <i class="material-icons left">badge</i>
-                                                    <p class="user-mail" id="dataName"> </p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="material-icons left">contact_mail</i>
-                                                    <p class="user-mail" id="dataEmail">
-                                                        
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="material-icons left">contact_phone</i>
-                                                    <p class="user-mail" id="dataNumber"></p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="material-icons left">home</i>
-                                                    <p class="user-mail" id="dataAddress"></p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="material-icons left">work</i>
-                                                    <p class="user-mail" id="dataJob">
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <!-- <div class="left-side"> -->
+                            <div class="profile-side">
+                                <table class="responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Overview</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <i class="material-icons left">badge</i>
+                                                <p class="user-mail" id="dataName"> </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <i class="material-icons left">contact_mail</i>
+                                                <p class="user-mail" id="dataEmail">
 
-                                    <div class="profile-btn" style="margin-top: 10px;">
-                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Profile
-                                        </a>
-                                    </div>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <i class="material-icons left">contact_phone</i>
+                                                <p class="user-mail" id="dataNumber"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <i class="material-icons left">home</i>
+                                                <p class="user-mail" id="dataAddress"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <i class="material-icons left">work</i>
+                                                <p class="user-mail" id="dataJob">
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="profile-btn" style="margin-top: 10px;">
+                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
+                                        <i class="fas fa-edit"></i>
+                                        Edit Profile
+                                    </a>
                                 </div>
                             </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="profile-reviews tab">
                         <div class="row recipes">
 
                         </div>
+                    </div>
+                    <div class="profile-reviews tab">
+                        <form id="shoppingForm">
+                            <div class="shoppingDiv row right-align">
+                                <div class="col s12 m6 right-align">
+                                    <button class="btn waves-effect waves-light" id="setStatus">Got it!
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                    <button class="btn waves-effect waves-light" id="deleteShopping">Delete
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <ul class="collapsible popout" id="shoppingList">
+
+                            </ul>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -620,7 +638,7 @@
 
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/materialize.min.js"></script>
-    <script src="https://kit.fontawesome.com/26d4a64054.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/26d4a64054.js" crossorigin="anonymous"></script> -->
     <script type="text/javascript">
         $(document).ready(function () {
             $(".sidenav").sidenav();
@@ -631,18 +649,17 @@
         });
 
         $(document).ready(function () {
-            $('.sidenav').sidenav();
+            $('.modal').modal();
         });
 
         $(document).ready(function () {
-            $('.modal').modal();
+            $('.collapsible').collapsible();
         });
     </script>
+    <script type="text/javascript" src="js/profile-frontend.js"></script>
     <script type="text/javascript" src="js/profile.js"></script>
     <script type="text/javascript" src="js/auth.js"></script>
     <script type="text/javascript" src="js/post.js"></script>
-    <script type="text/javascript" src="js/index-frontend.js"></script>
-    <script type="text/javascript" src="js/profile-frontend.js"></script>
     <script type="text/javascript" src="js/signout.js"></script>
 </body>
 

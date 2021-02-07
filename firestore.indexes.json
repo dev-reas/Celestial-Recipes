@@ -1,15 +1,7 @@
 {
   "indexes": [
-    {
-      "collectionGroup": "recipe",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "recipeDate",
-          "order": "DESCENDING"
-        }
-      ]
-    }
+    
+    
   ],
   "fieldOverrides": []
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recide app</title>
 
-    <link rel="stylesheet" href="css/materialize.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/search.css">
@@ -75,13 +75,21 @@
             Ingredient, Type of Cuisine, Meal Type, Occasion and Prep Time</a>
     </div>
     <div class="container-fluid">
-        <div class="row recipes">
-
+        <div class="row recipes center">
+            Hit filter search to find your recipe
         </div>
-        <div id="search-data" hidden>
-
+        <div id="divTag">
+            <span id="tags">
+                <p>Tags:</p>
+            </span>
+        </div>
+        <div id="search-data" class="row">
+            <div>
+                
+            </div>
         </div>
     </div>
+
 
     <div id="modal1" class="modal">
         <form class="col s12" id="modal-submit">
@@ -241,7 +249,7 @@
     </script>
 
     <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="js/materialize.js"></script>
+    <script src="js/materialize.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {

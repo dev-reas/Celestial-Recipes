@@ -1,5 +1,9 @@
 const recipeList = document.querySelector('.recipes');
 const updateRecipe = document.querySelector('#update-recipe');
+const ShoppingList = document.querySelector('#shoppingList');
+const setStatus = document.querySelector('#setStatus');
+const deleteShopping = document.querySelector('#deleteShopping');
+const statusAlert = document.querySelectorAll('.status-alert');
 
 function renderRecipe(doc) {
     let titleCut = '';
@@ -14,46 +18,48 @@ function renderRecipe(doc) {
     let event = new Date(doc.data().recipeDate.toDate());
     let html = [
         `
-            <div class="card">
-                <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator responsive-img" src="${doc.data().recipeImg}">
-                    <a class='dropdown-trigger right' href='#' data-target='editBtn${doc.id}'>
-                            <i class="material-icons right" style="color: #b71c1c;">more_vert</i>
-                        </a>
+        <div class="card">
+            <div class="card-image waves-effect hoverable waves-block waves-light">
+                <img class="activator responsive-img" src="${doc.data().recipeImg}">
+                <a class='dropdown-trigger right' href='#' data-target='editBtn${doc.id}'>
+                        <i class="material-icons right" style="color: #b71c1c;">more_vert</i>
+                    </a>
 
-                        <ul id='editBtn${doc.id}' class='dropdown-content'>
-                            <li>
-                                <a id="edit${doc.id}" class="modal-trigger" href="#modal1">
-                                    <i class="material-icons">edit</i>Edit
-                                </a>
-                            </li>
-                            <li><a href="#!" id="del${doc.id}"><i class="material-icons">delete_forever</i>Delete</a></li>
-                            <li><a href="#!"><i class="material-icons">pageview</i>View</a></li>
+                    <ul id='editBtn${doc.id}' class='dropdown-content'>
+                        <li>
+                            <a id="edit${doc.id}" class="modal-trigger" href="#modal1">
+                                <i class="material-icons">edit</i>Edit
+                            </a>
+                        </li>
+                        <li><a href="#!" id="del${doc.id}"><i class="material-icons">delete_forever</i>Delete</a></li>
+                        <li><a href="#!"><i class="material-icons">pageview</i>View</a></li>
                         </ul>
-                </div>
-                <div class="card-content">
-                    <div class="card--recipe-info">
-                        <span class="card-title activator grey-text text-darken-4 ">
-                            <h5 class="">${titleCut}</h5>
-                        </span>
+            </div>
+            <div class="card-content">
+                <div class="card--recipe-info">
+                    <div class="card-title activator grey-text text-darken-4 ">
+                        <h5 class="flow-text">${titleCut}</h5>
                     </div>
                 </div>
-                    <div class="card--recipe-info">
-                        <a>
-                            <h2 class="card--recipe-category flow-text">
-                                By: ${doc.data().recipeAuthor}
-                            </h2>
-                        </a>
-                    </div>
-                    <div class="card--recipe-info">
-                        <p class="card--recipe-time">
-                        <i class="material-icons left small">schedule</i>
-                            ${doc.data().prepTime}
-                        </p>
-                    </div>
-                    <div class="card--recipe-info">
-                        <p class="card--description">
-                            <div class="card--rating-wrapper">
+            </div>
+            <div class="card-content">
+                <div class="card--recipe-info">
+                    <a>
+                        <h2 class="card--recipe-category flow-text">
+                            By: ${doc.data().recipeAuthor}
+                        </h2>
+                    </a>
+                </div>
+                <div class="card--recipe-info">
+                    <p class="card--recipe-time flow-text">
+                        <i class="material-icons left tiny">schedule</i>
+                        ${doc.data().prepTime}
+                    </p>
+                </div>
+                <div class="card--recipe-info">
+                    <p class="card--description">
+                        Recipe Ratings:
+                        <div class="card--rating-wrapper right">
                             <div class="card--rating-stars--wrapper">
                                 <div class="card--rating-star filled">☆</div>
                                 <div class="card--rating-star filled">☆</div>
@@ -61,25 +67,27 @@ function renderRecipe(doc) {
                                 <div class="card--rating-star filled">☆</div>
                                 <div class="card--rating-star">☆</div>
                             </div>
-                            </div>
-                            <div class="viewrecipe">
-                            <a href="view.html">View Recipe</a>
-                            </div>
-                        </p>
-                    </div>
+                        </div>
+                    </p>
                 </div>
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">
-                        ${doc.data().recipeTitle}
-                        <i class="material-icons right">
-                            close
-                        </i>
-                    </span>
-                    <div class="card--description">
-                        ${doc.data().recipeDesc}
+                <div class="card-action">
+                    <div class="viewrecipe center">
+                        <a href="view.html?view=${encodeURIComponent(doc.data().recipeTitle)}">View Recipe</a>
                     </div>
                 </div>
             </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">
+                    ${doc.data().recipeTitle}
+                    <i class="material-icons right">
+                        close
+                    </i>
+                </span>
+                <div class="card--description">
+                    ${doc.data().recipeDesc}
+                </div>
+            </div>
+        </div>
     `].join('');
 
     let fragment = new DocumentFragment();
@@ -193,16 +201,97 @@ function renderRecipe(doc) {
     });
 }
 
+const renderShopping = (recipeId, userShoppingList) => {
+    var li = document.createElement('li');
+    var divBody = document.createElement('div');
+    divBody.setAttribute('class', 'collapsible-body shoppingContent row');
+    var fragment = new DocumentFragment();
+
+    var divHeader = document.createElement('div');
+    divHeader.setAttribute('class', 'collapsible-header');
+
+    db.collection('recipe').doc(recipeId).get().then((doc) => {
+        if (doc.exists) {
+            divHeader.textContent = doc.data().recipeTitle;
+        }
+        else {
+            divHeader.textContent = 'Recipe is deleted';
+        }
+    });
+
+    for (var index = 0; index < userShoppingList.length; index += 2) {
+        html = [
+            `
+                <p>
+                    <label>
+                        <input type="checkbox" name="ingredientList" value="${userShoppingList[index + 1]}" />
+                        <span>
+                            <p>
+                                ${userShoppingList[index].userShoppingList}
+                            </p>
+                        </span>
+                    </label>
+                </p>
+            `
+        ].join('');
+        var span = document.createElement('span');
+        span.setAttribute('data-id', userShoppingList[index + 1]);
+        span.setAttribute('class', 'col s12 grocery');
+        span.innerHTML = html;
+
+        var p = document.createElement('span');
+        p.setAttribute('class', 'alertSet');
+
+        var icon = document.createElement('i');
+        icon.setAttribute('class', 'material-icons left iconAlert');
+        icon.textContent = 'done';
+
+        p.textContent = 'You have this ingredient';
+
+        if (userShoppingList[index].status == false) {
+            p.setAttribute('hidden', true);
+        }
+
+        else {
+            p.removeAttribute('hidden');
+        }
+
+        p.appendChild(icon);
+        span.appendChild(p);
+        divBody.appendChild(span);
+    }
+
+    fragment.appendChild(divHeader);
+    fragment.appendChild(divBody);
+    li.appendChild(fragment);
+    ShoppingList.appendChild(li);
+
+}
+
 const ProfileView = (user) => {
     userId = user.uid;
     db.collection('recipe').where("recipeAuthorUID", "==", userId).get().then(snapshot => {
         snapshot.docs.forEach(doc => {
-
             renderRecipe(doc);
         });
     });
-}
 
+    db.collection('shoppingList').where("userId", "==", userId).get().then(snapshot => {
+        var recipeGroups = {};
+
+        snapshot.docs.forEach((doc) => {
+            if (!recipeGroups[doc.data().recipeId]) {
+                recipeGroups[doc.data().recipeId] = [];
+            }
+            recipeGroups[doc.data().recipeId].push(doc.data(), doc.id);
+        });
+
+        Object.keys(recipeGroups).forEach(recipeId => {
+            var userShoppingList = recipeGroups[recipeId];
+            renderShopping(recipeId, userShoppingList);
+        });
+    });
+}
 
 auth.onAuthStateChanged((user) => {
     if (user) {
@@ -233,4 +322,92 @@ auth.onAuthStateChanged((user) => {
             window.location.replace('login-page.html')
         }
     }
+});
+
+
+setStatus.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    var ingredientArray = [];
+    $("input:checkbox[name=ingredientList]:checked").each(function () {
+        ingredientArray.push($(this).val());
+    });
+
+    console.log(ingredientArray);
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            let ingredientStatus = false;
+            ingredientArray.forEach(element => {
+                var sfDocRef = db.collection("shoppingList").doc(element);
+
+                return db.runTransaction((transaction) => {
+                    return transaction.get(sfDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        else {
+                            if (sfDoc.data().status == ingredientStatus) {
+                                ingredientStatus = true;
+                                transaction.update(sfDocRef, { status: ingredientStatus });
+                            }
+
+                            else {
+                                transaction.update(sfDocRef, { status: ingredientStatus });
+                            }
+                        }
+                        location.reload();
+                    });
+                }).then(() => {
+                    console.log("Transaction successfully committed!");
+                }).catch((error) => {
+                    console.log("Transaction failed: ", error);
+                });
+            });
+
+        } else {
+            console.log('no user login');
+        }
+    });
+});
+
+
+
+deleteShopping.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    var ingredientArray = [];
+    $("input:checkbox[name=ingredientList]:checked").each(function () {
+        ingredientArray.push($(this).val());
+    });
+
+    console.log(ingredientArray);
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            let ingredientStatus = false;
+            ingredientArray.forEach(element => {
+                var sfDocRef = db.collection("shoppingList").doc(element);
+
+                return db.runTransaction((transaction) => {
+                    return transaction.get(sfDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        transaction.delete(sfDocRef);
+                        location.reload();
+                    });
+                }).then(() => {
+                    console.log("Transaction successfully committed!");
+                }).catch((error) => {
+                    console.log("Transaction failed: ", error);
+                });
+            });
+
+        } else {
+            console.log('no user login');
+        }
+    });
 });

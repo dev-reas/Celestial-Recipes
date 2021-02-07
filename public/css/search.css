@@ -5,3 +5,18 @@
 .btn {
     width: 100%;
 }
+
+.recipes {
+    margin-top: 2%;
+}
+
+#tags {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+#tags p {
+    margin: 5px;
+}
