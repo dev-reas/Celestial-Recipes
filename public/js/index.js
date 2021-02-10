@@ -38,8 +38,8 @@ const getComments = (commentsId, doc) => {
 
 const renderRecipe = (doc, avrRating, commentsCounter) => {
     let titleCut = '';
-    if (doc.data().recipeTitle.length > 37) {
-        titleCut = doc.data().recipeTitle.substring(0, 40) + ' ...';
+    if (doc.data().recipeTitle.length > 20) {
+        titleCut = doc.data().recipeTitle.substring(0, 20) + ' ...';
     }
 
     else {
@@ -58,8 +58,6 @@ const renderRecipe = (doc, avrRating, commentsCounter) => {
                         <h5 class="flow-text">${titleCut}</h5>
                     </div>
                 </div>
-            </div>
-            <div class="card-content">
                 <div class="card--recipe-info">
                     <a>
                         <h2 class="card--recipe-category flow-text">

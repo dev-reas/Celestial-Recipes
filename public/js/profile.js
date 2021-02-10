@@ -6,14 +6,13 @@ const deleteShopping = document.querySelector('#deleteShopping');
 
 function renderRecipe(doc) {
     let titleCut = '';
-    if (doc.data().recipeTitle.length > 20) {
-        titleCut = doc.data().recipeTitle.substring(0, 20) + ' ...';
+    if (doc.data().recipeTitle.length > 35) {
+        titleCut = doc.data().recipeTitle.substring(0, 35) + ' ...';
     }
 
     else {
         titleCut = doc.data().recipeTitle;
     }
-
     let event = new Date(doc.data().recipeDate.toDate());
     let html = [
         `
@@ -36,12 +35,11 @@ function renderRecipe(doc) {
             </div>
             <div class="card-content">
                 <div class="card--recipe-info">
-                    <div class="card-title activator grey-text text-darken-4 ">
-                        <h5 class="flow-text">${titleCut}</h5>
+                    <div class="card-title activator grey-text text-darken-4 truncate">
+                        <h5 class="flow-text truncate">${titleCut}</h5>
                     </div>
                 </div>
-            </div>
-            <div class="card-content">
+                
                 <div class="card--recipe-info">
                     <a>
                         <h2 class="card--recipe-category flow-text">
@@ -114,7 +112,7 @@ function renderRecipe(doc) {
     const editBtn = document.getElementById('edit' + doc.id);
 
     editBtn.addEventListener('click', (e) => {
-        const id = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
+        let id = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
         var docRef = db.collection("recipe").doc(id);
 
         docRef.get().then(function (doc) {
@@ -191,7 +189,7 @@ function renderRecipe(doc) {
     const delBtn = document.getElementById('del' + doc.id);
 
     delBtn.addEventListener('click', (e) => {
-        const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
+        const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
         db.collection("recipe").doc(delId).delete().then(function () {
             location.reload();
         }).catch(function (error) {

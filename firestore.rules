@@ -37,5 +37,11 @@ service cloud.firestore {
         allow delete: 
         if request.auth.uid != null && request.auth.uid == resource.data.userUID;
      }
+     
+     match /ratings/{ratingsId}
+     {
+     		allow read: if true;
+        allow create: if request.auth.uid != null;
+     }
 	}
 }
