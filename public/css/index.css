@@ -133,30 +133,23 @@ body {
   line-height: 150%;
 }
 
-
-.card--rating-wrapper {
-  display: flex;
-  align-items: baseline;
-  margin-left: 3%;
-}
-
-.card--rating-stars--wrapper {
-  display: flex;
-  margin-right: 10px;
-}
-
 .card--rating-star {
   position: relative;
   color: #b6b6b6;
   margin-right: 2px;
 }
 
-.card--rating-star.filled:after {
+.commentCounter {
+  margin: 0;
+  margin-right: 2%;
+}
+
+/* .card--rating-star.filled:after {
   position: absolute;
   left: 0;
   content: "\2605";
   color: #D99525;
-}
+} */
 
 .card--rating-count {
   font-size: 12px;
@@ -190,6 +183,7 @@ body {
 
 .card--rating-stars--wrapper {
   display: flex;
+  flex-direction: row;
   margin-right: 10px;
 }
 
@@ -197,13 +191,6 @@ body {
   position: relative;
   color: #b6b6b6;
   margin-right: 2px;
-}
-
-.card--rating-star.filled:after {
-  position: absolute;
-  left: 0;
-  content: "\2605";
-  color: #D99525;
 }
 
 .card--rating-count {

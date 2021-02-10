@@ -118,15 +118,15 @@
             <div class="grid-example col s12">
                 <div class="row">
                     <div class="col s12">
-                        <ul class="tabs">
-                            <li class="tab col s4"><a class="active" href="#test2"><i
-                                        class="Tiny material-icons">description</i>Description</a></li>
-                            <li class="tab col s4"><a href="#test1" id="show-hidden-menu"><i
-                                        class="Tiny material-icons">receipt</i>Ingredients</a></li>
-                            <li class="tab col s4"><a href="#test3"><i
-                                        class="Tiny material-icons">mode_edit</i>Instruction</a></li>
-
-
+                        <ul class="tabs profileTabs">
+                            <li class="tab col s3"><a class="active" href="#test2"><i
+                                        class="Tiny material-icons">description</i> Description</a></li>
+                            <li class="tab col s3"><a href="#test1" id="show-hidden-menu"><i
+                                        class="Tiny material-icons">receipt</i> Ingredients</a></li>
+                            <li class="tab col s3"><a href="#test3"><i class="Tiny material-icons">mode_edit</i>
+                                    Instruction</a></li>
+                            <li class="tab col s3"><a href="#test4"><i class="Tiny material-icons">reviews</i> Ratings
+                                    and Reviews</a></li>
                         </ul>
                     </div>
                     <div id="test2" class="col s12 row">
@@ -226,7 +226,7 @@
                                 <div class="borderFirst">
                                     <div class="shoppingAltDiv">
                                         <p class="black-text shoppingIdText">
-    
+
                                         </p>
                                     </div>
                                 </div>
@@ -243,10 +243,58 @@
 
                         </ul>
                     </div>
+                    <div id="test4" class="col s12">
+                        <div>
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Tell us your review</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h3 class="flow-text" id="titleRate"></h3>
+                <div class='rating-stars text-center ratingsDiv'>
+                    <form id="heartRate">
+                        <div class="star-rating">
+                            <input type="radio" id="5-stars" class="radioCB" name="rating" value="5" />
+                            <label for="5-stars" id="WowRating" class="star flow-text">
+                                <i class='material-icons fa'>favorite</i>
+                            </label>
+                            <input type="radio" id="4-stars" class="radioCB" name="rating" value="4" />
+                            <label for="4-stars" id="LikeRating" class="star flow-text">
+                                <i class='material-icons fa'>favorite</i>
+                            </label>
+                            <input type="radio" id="3-stars" class="radioCB" name="rating" value="3" />
+                            <label for="3-stars" id="OkRating" class="star flow-text">
+                                <i class='material-icons fa'>favorite</i>
+                            </label>
+                            <input type="radio" id="2-stars" class="radioCB" name="rating" value="2" />
+                            <label for="2-stars" id="BadRating" class="star flow-text">
+                                <i class='material-icons fa'>favorite</i>
+                            </label>
+                            <input type="radio" id="1-star" class="radioCB" name="rating" value="1" />
+                            <label for="1-star" id="PoorRating" class="star flow-text">
+                                <i class='material-icons fa'>favorite</i>
+                            </label>
+                        </div>
+
+                        <div>
+                            <p id="heartReaction"></p>
+                        </div>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="commentRate" class="materialize-textarea" required></textarea>
+                    <label for="commentRate">Your opinion about this recipe</label>
+                </div>
+                <button class="btn waves-effect waves-light">Send your ratings
+                    <i class="material-icons right">send</i>
+                </button>
+                </form>
+            </div>
+        </div>
 
         <footer class="page-footer">
             <div class="container">
@@ -354,6 +402,7 @@
         <script type="text/javascript" src="js/view.js"></script>
         <script type="text/javascript" src="js/auth.js"></script>
         <script type="text/javascript" src="js/signout.js"></script>
+
 </body>
 
 </html>

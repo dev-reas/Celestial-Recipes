@@ -2,12 +2,41 @@ const recipeList = document.querySelector('.recipes');
 
 db.collection('recipe').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
-        renderRecipe(doc);
+        getComments(doc.id, doc);
     });
 });
 
 
-const renderRecipe = (doc) => {
+
+
+const getComments = (commentsId, doc) => {
+    db.collection("ratings").where("recipeId", "==", commentsId)
+        .get()
+        .then((querySnapshot) => {
+            var commentsArray = [];
+            var ratingLength = [];
+            var rating = 0;
+            var avrRating = 0;
+            querySnapshot.forEach((doc) => {
+                commentsArray.push(doc.data().comments);
+                ratingLength.push(doc.data().rating);
+                rating += parseInt(doc.data().rating);
+            });
+            if (ratingLength.length <= 0) {
+                avrRating = ratingLength.length;
+            }
+            else {
+                avrRating = rating / parseInt(ratingLength.length);
+            }
+            renderRecipe(doc, avrRating, commentsArray.length);
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+}
+
+
+const renderRecipe = (doc, avrRating, commentsCounter) => {
     let titleCut = '';
     if (doc.data().recipeTitle.length > 37) {
         titleCut = doc.data().recipeTitle.substring(0, 40) + ' ...';
@@ -45,18 +74,21 @@ const renderRecipe = (doc) => {
                     </p>
                 </div>
                 <div class="card--recipe-info">
-                    <p class="card--description">
-                        Recipe Ratings:
-                        <div class="card--rating-wrapper right">
-                            <div class="card--rating-stars--wrapper">
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star">☆</div>
-                            </div>
+                    <div class="card--rating-wrapper">
+                        <div class="card--rating-stars--wrapper cardRating">
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
                         </div>
-                    </p>
+                        
+                        <span class="commentCounter">
+                            <p class="flow-text">${commentsCounter}</p>
+                        </span>
+                        <i class="material-icons tiny">comment</i>
+
+                    </div>
                 </div>
                 <div class="card-action">
                     <div class="viewrecipe center">
@@ -86,4 +118,6 @@ const renderRecipe = (doc) => {
     div.innerHTML = html;
     fragment.appendChild(div);
     recipeList.appendChild(fragment);
+
+    const cardRating = document.querySelectorAll('.cardRating');
 }

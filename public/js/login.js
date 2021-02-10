@@ -98,8 +98,6 @@ facebookSignIn.addEventListener('click', (e) => {
             var user = result.user;
             var accessToken = credential.accessToken;
 
-            var currUser = auth.currentUser;
-
             let userName = '';
             let email = '';
             let userImg = '';

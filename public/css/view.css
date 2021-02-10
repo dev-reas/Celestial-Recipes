@@ -71,6 +71,12 @@
     color: #666;
 }
 
+.profileTabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
 .tabs .tab a:focus,
 .tabs .tab a:focus.active {
@@ -293,7 +299,8 @@ body {
     font-size: 3vw;
 }
 
-#recipeDate, #recipeAuthor {
+#recipeDate,
+#recipeAuthor {
     margin-top: 1%;
     margin-bottom: 1%;
 }
@@ -316,7 +323,8 @@ body {
     flex-direction: column;
 }
 
-.headerTag, .infoTag {
+.headerTag,
+.infoTag {
     margin-top: 1%;
     margin-bottom: 1%;
 }
@@ -343,10 +351,53 @@ body {
     margin-right: 2%;
 }
 
-#shoppingIdAlternate .borderFirst .shoppingAltDiv{
+#shoppingIdAlternate .borderFirst .shoppingAltDiv {
     border-top: 1px solid #ffea00;
     border-bottom: 1px solid #ffea00;
     padding: 0.5px;
 }
 
+#stars {
+    margin: 0;
+    margin-right: 2%;
+}
 
+/* .ratingsDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} */
+
+#heartRate {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 5vw;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 5em;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating :checked~label {
+    color: #c62828;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: #fc0;
+}

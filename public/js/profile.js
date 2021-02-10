@@ -3,7 +3,6 @@ const updateRecipe = document.querySelector('#update-recipe');
 const ShoppingList = document.querySelector('#shoppingList');
 const setStatus = document.querySelector('#setStatus');
 const deleteShopping = document.querySelector('#deleteShopping');
-const statusAlert = document.querySelectorAll('.status-alert');
 
 function renderRecipe(doc) {
     let titleCut = '';
