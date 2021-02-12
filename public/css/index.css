@@ -139,6 +139,10 @@ body {
   margin-right: 2px;
 }
 
+.cardRateCounter {
+  color: #c62828;
+}
+
 .commentCounter {
   margin: 0;
   margin-right: 2%;
@@ -310,3 +314,4 @@ body {
 .social-menu ul li:nth-child(3) a:hover {
   background-color: #e4405f;
 }
+

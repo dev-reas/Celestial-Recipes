@@ -7,6 +7,7 @@ const recipeTitle = document.querySelector('#recipeTitle');
 const userName = document.querySelector('#recipeAuthor');
 const recipeDate = document.querySelector('#recipeDate');
 const userImage = document.querySelector('#recipeAuthorImage');
+const recipeImg = document.querySelector('.recipe-img');
 const recipeDesc = document.querySelector('#recipeDesc');
 const mainIngredient = document.querySelector('#mainIngredient');
 const cuisine = document.querySelector('#cuisine');
@@ -22,6 +23,7 @@ const shoppingAlternate = document.querySelector('#shoppingIdAlternate');
 const shoppingIdText = document.querySelector('.shoppingIdText');
 const titleRate = document.querySelector('#titleRate');
 const heartReaction = document.querySelector('#heartReaction');
+const numRating = document.querySelector('.numRating');
 
 shoppingAlternate.setAttribute('class', 'hide');
 shoppingListBtn.textContent = 'Add this all these ingredients to shopping list';
@@ -104,6 +106,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
         let event = new Date(doc.data().recipeDate.toDate());
 
         userImage.setAttribute('src', doc.data().recipeAuthorPhoto);
+        recipeImg.setAttribute('src', doc.data().recipeImg);
         userName.textContent = 'By: ' + doc.data().recipeAuthor;
         recipeTitle.textContent = doc.data().recipeTitle;
         recipeDate.textContent = event.toLocaleString();
@@ -114,6 +117,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
         occasion.textContent = doc.data().occasion;
         prepTime.textContent = doc.data().prepTime;
         titleRate.textContent = doc.data().recipeTitle;
+        numRating.textContent = doc.data().avrRating;
 
         var fragmentInstrct = new DocumentFragment();
 
@@ -236,7 +240,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
         });
 
         submitRatings(doc.id);
-        getComments(doc.id);
+        showRating(doc);
     });
 }).catch(function (error) {
     console.log("Error getting documents: ", error);
@@ -258,11 +262,12 @@ let myList = setTimeout(() => {
 }, 2000);
 
 const submitRatings = (params) => {
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            const heartRate = document.querySelector('#heartRate');
-            heartRate.addEventListener('submit', (e) => {
-                e.preventDefault();
+
+    const heartRate = document.querySelector('#heartRate');
+    heartRate.addEventListener('submit', (e) => {
+        e.preventDefault();
+        auth.onAuthStateChanged((user) => {
+            if (user) {
                 var data = 0;
                 if (heartRate['rating'].value == '' || heartRate['rating'].value == ' ') {
                     heartRate['rating'].value = 5;
@@ -279,26 +284,150 @@ const submitRatings = (params) => {
                     recipeId: params,
                     userId: user.uid,
                 });
-            });
-        }
 
-        else {
-            window.location.replace("http://localhost:5000/login-page.html");
-        }
+                var sfDocRef = db.collection("recipe").doc(params);
+
+                return db.runTransaction((transaction) => {
+                    // This code may get re-run multiple times if there are conflicts.
+                    return transaction.get(sfDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        var newNumRatings = sfDoc.data().numRatings + 1;
+                        var newAverage = ((sfDoc.data().numRatings * (sfDoc.data().avrRating + parseInt(data))) / (newNumRatings));
+                        transaction.update(sfDocRef, {
+                            numRatings: newNumRatings,
+                            avrRating: newAverage,
+                        });
+                    });
+                }).then(() => {
+                    location.reload();
+                }).catch((e) => {
+                    console.log(e);
+                });
+            }
+
+            else {
+                location.replace('http://localhost:5000/login-page.html');
+            }
+        });
     });
 }
 
-const getComments = (commentsId) => {
-    db.collection("ratings").where("recipeId", "==", commentsId)
-        .get()
-        .then((querySnapshot) => {
-            var commentsArray = [];
-            querySnapshot.forEach((doc) => {
-                commentsArray.push(doc.data());
+const showRating = (docRef) => {
+    const progressForFive = document.querySelector('#progressForFive');
+    const progressForFour = document.querySelector('#progressForFour');
+    const progressForThree = document.querySelector('#progressForThree');
+    const progressForTwo = document.querySelector('#progressForTwo');
+    const progressForOne = document.querySelector('#progressForOne');
+
+    db.collection('ratings').where('recipeId', '==', docRef.id).get().then((querySnapshot) => {
+        var ratingFive = [];
+        var ratingFour = [];
+        var ratingThree = [];
+        var ratingTwo = [];
+        var ratingOne = [];
+        querySnapshot.forEach((doc) => {
+            if (doc.data().rating == 5) {
+                ratingFive.push(doc.data().rating);
+            }
+
+            else if (doc.data().rating == 4) {
+                ratingFour.push(doc.data().rating);
+            }
+
+            else if (doc.data().rating == 3) {
+                ratingThree.push(doc.data().rating);
+            }
+
+            else if (doc.data().rating == 2) {
+                ratingTwo.push(doc.data().rating);
+            }
+
+            else if (doc.data().rating == 1) {
+                ratingOne.push(doc.data().rating);
+            }
+
+            var docRef = db.collection("users").doc(doc.data().userId);
+            docRef.get().then((sfDoc) => {
+                if (sfDoc.exists) {
+                    getReviews(doc, sfDoc);
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
             });
-            console.log(commentsArray.length);
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
+
+            showUserRating(doc);
         });
+
+        var ratingFiveWidth = 0;
+        var ratingFourWidth = 0;
+        var ratingThreeWidth = 0;
+        var ratingTwoWidth = 0;
+        var ratingOneWidth = 0;
+
+        ratingFiveWidth = (ratingFive.length / docRef.data().numRatings) * 100;
+        ratingFourWidth = (ratingFour.length / docRef.data().numRatings) * 100;
+        ratingThreeWidth = (ratingThree.length / docRef.data().numRatings) * 100;
+        ratingTwoWidth = (ratingTwo.length / docRef.data().numRatings) * 100;
+        ratingOneWidth = (ratingOne.length / docRef.data().numRatings) * 100;
+
+        progressForFive.style.width = ratingFiveWidth + '%';
+        progressForFour.style.width = ratingFourWidth + '%';
+        progressForThree.style.width = ratingThreeWidth + '%';
+        progressForTwo.style.width = ratingTwoWidth + '%';
+        progressForOne.style.width = ratingOneWidth + '%';
+
+    }).catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+}
+
+const getReviews = (doc, sfDoc) => {
+    const reviews = document.querySelector('#reviews');
+
+    let event = new Date(doc.data().ratingDate.toDate());
+    let html = [
+        `
+                    <img src="${sfDoc.data().userImg}" alt="profile-img" class="circle">
+                    <span class="title">${sfDoc.data().userName}</span>
+                    <p class="ratingDateText">${event.toDateString()}</p>
+                    <p>
+                        ${doc.data().comment}
+                    </p>
+                    <div class="card--rating-stars--wrapper secondary-content heartRatings">
+                        <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                        <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                        <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                        <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                        <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                    </div>                       
+                `
+    ].join('');
+
+    const li = document.createElement('li');
+    li.setAttribute('class', 'collection-item avatar');
+    li.setAttribute('data-id', doc.id);
+
+    li.innerHTML = html;
+    reviews.appendChild(li);
+}
+
+const showUserRating = (doc) => {
+    setTimeout(() => {
+        const heartRatings = document.querySelectorAll('.heartRatings');
+
+        heartRatings.forEach(element => {
+            var id = element.parentNode.getAttribute('data-id');
+            if (doc.id == id) {
+                for(var index = 0; index < doc.data().rating; index++)
+                {
+                    element.children[index].style.color = '#b71c1c';
+                }
+            }
+        });
+    }, 1000);
 }

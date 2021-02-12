@@ -1,14 +1,13 @@
-const recipeList = document.querySelector('#recipes');
-// const recipeListByRatings = document.querySelector('.recipesRates');
+const recipeListRates = document.querySelector('.recipesRates');
 
-db.collection('recipe').orderBy('recipeDate', 'desc').limit(8).get().then(snapshot => {
+db.collection('recipe').orderBy('avrRating', 'desc').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
-        getComments(doc.id, doc);
-        showUserRating(doc);
+        getCommentsByRates(doc.id, doc);
+        showUserRatingByRates(doc);
     });
 });
 
-const getComments = (commentsId, doc) => {
+const getCommentsByRates = (commentsId, doc) => {
     db.collection("ratings").where("recipeId", "==", commentsId)
         .get()
         .then((querySnapshot) => {
@@ -16,7 +15,7 @@ const getComments = (commentsId, doc) => {
             querySnapshot.forEach((doc) => {
                 commentsArray.push(doc.data().comments);
             });
-            renderRecipe(doc, commentsArray.length);
+            renderRecipeByRates(doc, commentsArray.length);
 
         })
         .catch((error) => {
@@ -25,7 +24,7 @@ const getComments = (commentsId, doc) => {
 }
 
 
-const renderRecipe = (doc, commentsCounter) => {
+const renderRecipeByRates = (doc, commentsCounter) => {
     let titleCut = '';
     if (doc.data().recipeTitle.length > 20) {
         titleCut = doc.data().recipeTitle.substring(0, 20) + ' ...';
@@ -98,17 +97,17 @@ const renderRecipe = (doc, commentsCounter) => {
             `
     ].join('');
 
-    let fragment = new DocumentFragment();
-    let div = document.createElement('div');
-    div.setAttribute('class', 'col l3 m6 s12 right');
-    div.setAttribute('data-id', doc.id);
+    let fragmentRates = new DocumentFragment();
+    let divRates = document.createElement('div');
+    divRates.setAttribute('class', 'col l3 m6 s12');
+    divRates.setAttribute('data-id', doc.id);
 
-    div.innerHTML = html;
-    fragment.appendChild(div);
-    recipeList.appendChild(fragment);
+    divRates.innerHTML = html;
+    fragmentRates.appendChild(divRates);
+    recipeListRates.appendChild(fragmentRates);
 }
 
-const showUserRating = (doc) => {
+const showUserRatingByRates = (doc) => {
     setTimeout(() => {
         const heartRatings = document.querySelectorAll('.heartRatings');
         heartRatings.forEach(element => {
@@ -120,5 +119,5 @@ const showUserRating = (doc) => {
                 }
             }
         });
-    }, 1500);
+    }, 1000);
 }

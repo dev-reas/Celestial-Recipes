@@ -89,15 +89,34 @@
     </ul>
 
     <div class="container-fluid">
-        <div class="title center">
-            <h4>Latest Recipes
-                <i class="medium material-icons">
-                    restaurant
-                </i>
-            </h4>
-        </div>
-        <div class="row recipes">
+        <!-- <div class="row rowRecipes"> -->
+            <div class="title left-align">
+                <h4>Latest Recipes
+                    <i class="medium material-icons">
+                        restaurant
+                    </i>
+                </h4>
+            </div>
+            <div id="recipes" class="row">
 
+            </div>
+            <!-- <div class="col s12">
+                
+            </div> -->
+
+            <!-- <div class="col s12">
+                <div class="title left-align">
+                    <h4>
+                        Most Rated
+                        <i class="medium material-icons">
+                            restaurant
+                        </i>
+                    </h4>
+                </div>
+                <div class="row recipesRates">
+
+                </div>
+            </div> -->
         </div>
 
 
@@ -370,6 +389,11 @@
 
             $(document).ready(function () {
                 $('.fixed-action-btn').floatingActionButton();
+            });
+
+            $(document).ready(function () {
+                $('.tooltipped').tooltip();
+                $('.collapsible').collapsible();
             });
         </script>
         <script src="https://kit.fontawesome.com/26d4a64054.js" crossorigin="anonymous"></script>

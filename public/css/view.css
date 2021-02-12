@@ -182,8 +182,6 @@ body {
 .card--rating-star.filled:after {
     position: absolute;
     left: 0;
-    content: "\2605";
-    color: #D99525;
 }
 
 .card--rating-count {
@@ -278,9 +276,9 @@ body {
     background: #fff;
 }
 
-.collection-item {
+/* .collection-item {
     border: 0 !important;
-}
+} */
 
 .profile {
     display: flex;
@@ -357,17 +355,6 @@ body {
     padding: 0.5px;
 }
 
-#stars {
-    margin: 0;
-    margin-right: 2%;
-}
-
-/* .ratingsDiv {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-} */
-
 #heartRate {
     display: flex;
     flex-direction: row;
@@ -375,29 +362,93 @@ body {
     margin: 0;
 }
 
-.star-rating {
+.sectionAvrRating {
     display: flex;
-    flex-direction: row-reverse;
-    font-size: 5vw;
-    justify-content: space-evenly;
+    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    width: 5em;
+    margin-bottom: 2%;
 }
 
-.star-rating input {
-    display: none;
+.sectionAvrRating i {
+    color: #b71c1c;
 }
 
-.star-rating label {
-    color: #ccc;
-    cursor: pointer;
+#modded .progressBar .progress {
+    min-height: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
-.star-rating :checked~label {
+#modded .progressBar span {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    color: #000;
+    padding-right: 2%;
+    z-index: 99999;
+}
+
+#modded .progressBar span div {
     color: #c62828;
 }
 
-.star-rating label:hover,
-.star-rating label:hover~label {
-    color: #fc0;
+#modded .progressBar .progress span i {
+    width: inherit;
+    font-size: inherit;
+    position: relative;
+    top: 2px;
+    margin-left: 8px;
+}
+
+#modded .progressBar .progress .determinate {
+    transition: width 1s ease-in-out;
+    color: #fff;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.progressBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#test4 {
+    margin-top: 2%;
+}
+
+#test4 .row {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numRating {
+    font-size: 5vw;
+    margin-bottom: 1%;
+    margin-top: 1%;
+}
+
+.avrRatingOutput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar .title {
+    font-weight: bolder;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.ratingDateText {
+    font-size: 1vw;
+    color: #9e9e9e;
+}
+
+.heartRatingsChildren {
+    color: #b71c1c !important;
 }

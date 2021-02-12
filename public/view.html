@@ -110,8 +110,7 @@
                 </div>
             </div>
             <div class="col s6 m6">
-                <img class="responsive-img materialboxed" src="assets/pexels-ella-olsson-1640777.jpg"
-                    alt="recipe-image">
+                <img class="responsive-img materialboxed recipe-img" alt="assets/pexels-ella-olsson-1640777.jpg">
             </div>
         </div>
         <div class="row">
@@ -243,9 +242,85 @@
 
                         </ul>
                     </div>
-                    <div id="test4" class="col s12">
-                        <div>
-                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Tell us your review</a>
+                    <div class="col s12" id="test4">
+                        <div class="row">
+                            <div class="col s4 avrRatingOutput">
+                                <div class="sectionAvrRating">
+                                    <h1 class="numRating"></h1>
+                                    <i class='material-icons medium'>favorite</i>
+                                </div>
+                                <div class="sectionSubmitBtn">
+                                    <a class="waves-effect waves-light btn modal-trigger submitRatingBtn"
+                                        href="#modal1">Tell us your review</a>
+                                </div>
+                            </div>
+                            <div class="col s8">
+                                <div id="modded">
+                                    <div class="progressBar">
+                                        <span>5
+                                            <div class="card--rating-star cardRateCounter">
+                                                <i class='material-icons right'>favorite</i>
+                                            </div>
+                                        </span>
+                                        <div class="progress yellow lighten-4">
+                                            <div class="determinate yellow darken-2" id="progressForFive"
+                                                style="width: 0%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progressBar">
+                                        <span>4
+                                            <div class="card--rating-star cardRateCounter">
+                                                <i class='material-icons right'>favorite</i>
+                                            </div>
+                                        </span>
+                                        <div class="progress amber lighten-4">
+                                            <div class="determinate amber darken-2" id="progressForFour"
+                                                style="width: 0%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progressBar">
+                                        <span>3
+                                            <div class="card--rating-star cardRateCounter"><i
+                                                    class='material-icons right'>favorite</i>
+                                            </div>
+                                        </span>
+                                        <div class="progress orange lighten-4">
+                                            <div class="determinate orange darken-4" id="progressForThree"
+                                                style="width: 0%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progressBar">
+                                        <span>2
+                                            <div class="card--rating-star cardRateCounter"><i
+                                                    class='material-icons right'>favorite</i>
+                                            </div>
+                                        </span>
+                                        <div class="progress deep-orange lighten-4">
+                                            <div class="determinate deep-orange darken-2" id="progressForTwo"
+                                                style="width: 0%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progressBar">
+                                        <span>1
+                                            <div class="card--rating-star"><i class='material-icons right'>favorite</i>
+                                            </div>
+                                        </span>
+                                        <div class="progress red lighten-4">
+                                            <div class="determinate red darken-4" id="progressForOne" style="width: 0%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <ul class="collection" id="reviews">
+
+                            </ul>
                         </div>
                     </div>
                 </div>

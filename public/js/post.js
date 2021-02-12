@@ -55,6 +55,8 @@ const postRecipe = (user) => {
             recipeAuthorUID: user.uid,
             recipeAuthorPhoto: user.photoURL,
             recipeDate: firebase.firestore.Timestamp.now(),
+            avrRating: 0,
+            numRatings: 0,
         }).then((docRef) => {
 
             createRecipe.reset();
