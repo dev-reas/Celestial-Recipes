@@ -1,31 +1,24 @@
 const recipeList = document.querySelector('#recipes');
-// const recipeListByRatings = document.querySelector('.recipesRates');
 
-db.collection('recipe').orderBy('recipeDate', 'desc').limit(8).get().then(snapshot => {
+db.collection('recipe').orderBy('recipeDate', 'desc').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
-        getComments(doc.id, doc);
-        showUserRating(doc);
+        getComments(doc);
     });
 });
 
-const getComments = (commentsId, doc) => {
-    db.collection("ratings").where("recipeId", "==", commentsId)
-        .get()
-        .then((querySnapshot) => {
-            var commentsArray = [];
-            querySnapshot.forEach((doc) => {
-                commentsArray.push(doc.data().comments);
-            });
-            renderRecipe(doc, commentsArray.length);
-
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
+const getComments = (recipeData) => {
+    db.collection("avrRatings").where("recipeId", "==", recipeData.id).get().then((querySnapshot) => {
+        querySnapshot.forEach((docRef) => {
+            renderRecipe(recipeData, docRef.data().numRatings);
+            showUserRating(docRef);
         });
+    }).catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
 }
 
 
-const renderRecipe = (doc, commentsCounter) => {
+const renderRecipe = (doc, ratingsCounter) => {
     let titleCut = '';
     if (doc.data().recipeTitle.length > 20) {
         titleCut = doc.data().recipeTitle.substring(0, 20) + ' ...';
@@ -71,7 +64,7 @@ const renderRecipe = (doc, commentsCounter) => {
                         </div>
                         
                         <span class="commentCounter">
-                            <p class="flow-text">${commentsCounter}</p>
+                            <p class="flow-text">${ratingsCounter}</p>
                         </span>
                         <i class="material-icons tiny">comment</i>
 
@@ -114,8 +107,8 @@ const showUserRating = (doc) => {
         heartRatings.forEach(element => {
             var id = element.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
 
-            if (doc.id == id) {
-                for (var index = 0; index < doc.data().avrRating; index++) {
+            if (doc.data().recipeId == id) {
+                for (var index = 0; index < doc.data().ratingAverage; index++) {
                     element.children[index].style.color = '#b71c1c';
                 }
             }

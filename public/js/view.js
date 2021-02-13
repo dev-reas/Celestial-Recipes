@@ -2,7 +2,6 @@ let paramsString = window.location.search;
 let searchParams = new URLSearchParams(paramsString);
 let title = decodeURIComponent(searchParams.get('view'));
 
-
 const recipeTitle = document.querySelector('#recipeTitle');
 const userName = document.querySelector('#recipeAuthor');
 const recipeDate = document.querySelector('#recipeDate');
@@ -117,7 +116,6 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
         occasion.textContent = doc.data().occasion;
         prepTime.textContent = doc.data().prepTime;
         titleRate.textContent = doc.data().recipeTitle;
-        numRating.textContent = doc.data().avrRating;
 
         var fragmentInstrct = new DocumentFragment();
 
@@ -239,7 +237,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
             shoppingListBtn.setAttribute('class', 'hide');
         });
 
-        submitRatings(doc.id);
+        submitRatings(doc);
         showRating(doc);
     });
 }).catch(function (error) {
@@ -281,29 +279,28 @@ const submitRatings = (params) => {
                     comment: heartRate['commentRate'].value,
                     rating: data,
                     ratingDate: firebase.firestore.Timestamp.now(),
-                    recipeId: params,
+                    recipeId: params.id,
                     userId: user.uid,
                 });
 
-                var sfDocRef = db.collection("recipe").doc();
 
-                return db.runTransaction((transaction) => {
-                    return transaction.get(sfDocRef).then((sfDoc) => {
-                        if (!sfDoc.exists) {
-                            throw "Document does not exist!";
-                        }
-
-                        var newNumRatings = sfDoc.data().numRatings + 1;
-                        var newAverage = ((sfDoc.data().numRatings * (sfDoc.data().avrRating + parseInt(data))) / (newNumRatings));
-                        transaction.update(sfDocRef, {
+                db.collection("avrRatings").where("recipeId", "==", params.id).get().then((querySnapshot) => {
+                    querySnapshot.forEach((docRatings) => {
+                        var newNumRatings = docRatings.data().numRatings + 1;
+                        var newAverage = parseFloat((docRatings.data().numRatings * docRatings.data().ratingAverage + parseInt(data)) / (newNumRatings));
+                        db.collection('avrRatings').doc(docRatings.id).update({
+                            ratingAverage: parseFloat(newAverage),
                             numRatings: newNumRatings,
-                            avrRating: newAverage,
+                        }).then(() => {
+                            const modal = document.querySelector('#modal1');
+                            M.Modal.getInstance(modal).close();
+                            heartRate.reset();
+                            $('#reviews').empty();
+                            showRating(params);
                         });
                     });
-                }).then(() => {
-                    location.reload();
-                }).catch((e) => {
-                    console.log(e);
+                }).catch((error) => {
+                    console.log("Error getting documents: ", error);
                 });
             }
 
@@ -321,7 +318,7 @@ const showRating = (docRef) => {
     const progressForTwo = document.querySelector('#progressForTwo');
     const progressForOne = document.querySelector('#progressForOne');
 
-    db.collection('ratings').where('recipeId', '==', docRef.id).get().then((querySnapshot) => {
+    db.collection('ratings').where('recipeId', '==', docRef.id).orderBy('ratingDate', 'desc').get().then((querySnapshot) => {
         var ratingFive = [];
         var ratingFour = [];
         var ratingThree = [];
@@ -362,23 +359,31 @@ const showRating = (docRef) => {
             showUserRating(doc);
         });
 
-        var ratingFiveWidth = 0;
-        var ratingFourWidth = 0;
-        var ratingThreeWidth = 0;
-        var ratingTwoWidth = 0;
-        var ratingOneWidth = 0;
+        db.collection("avrRatings").where("recipeId", "==", docRef.id).get().then((querySnapshot) => {
+            querySnapshot.forEach((queries) => {
+                var ratingFiveWidth = 0;
+                var ratingFourWidth = 0;
+                var ratingThreeWidth = 0;
+                var ratingTwoWidth = 0;
+                var ratingOneWidth = 0;
+                numRating.textContent = parseFloat(queries.data().ratingAverage);
 
-        ratingFiveWidth = (ratingFive.length / docRef.data().numRatings) * 100;
-        ratingFourWidth = (ratingFour.length / docRef.data().numRatings) * 100;
-        ratingThreeWidth = (ratingThree.length / docRef.data().numRatings) * 100;
-        ratingTwoWidth = (ratingTwo.length / docRef.data().numRatings) * 100;
-        ratingOneWidth = (ratingOne.length / docRef.data().numRatings) * 100;
+                ratingFiveWidth = (ratingFive.length / queries.data().numRatings) * 100;
+                ratingFourWidth = (ratingFour.length / queries.data().numRatings) * 100;
+                ratingThreeWidth = (ratingThree.length / queries.data().numRatings) * 100;
+                ratingTwoWidth = (ratingTwo.length / queries.data().numRatings) * 100;
+                ratingOneWidth = (ratingOne.length / queries.data().numRatings) * 100;
 
-        progressForFive.style.width = ratingFiveWidth + '%';
-        progressForFour.style.width = ratingFourWidth + '%';
-        progressForThree.style.width = ratingThreeWidth + '%';
-        progressForTwo.style.width = ratingTwoWidth + '%';
-        progressForOne.style.width = ratingOneWidth + '%';
+                progressForFive.style.width = ratingFiveWidth + '%';
+                progressForFour.style.width = ratingFourWidth + '%';
+                progressForThree.style.width = ratingThreeWidth + '%';
+                progressForTwo.style.width = ratingTwoWidth + '%';
+                progressForOne.style.width = ratingOneWidth + '%';
+            });
+        }).catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+
 
     }).catch((error) => {
         console.log("Error getting documents: ", error);
@@ -387,7 +392,6 @@ const showRating = (docRef) => {
 
 const getReviews = (doc, sfDoc) => {
     const reviews = document.querySelector('#reviews');
-
     let event = new Date(doc.data().ratingDate.toDate());
     let html = [
         `
@@ -422,8 +426,7 @@ const showUserRating = (doc) => {
         heartRatings.forEach(element => {
             var id = element.parentNode.getAttribute('data-id');
             if (doc.id == id) {
-                for(var index = 0; index < doc.data().rating; index++)
-                {
+                for (var index = 0; index < doc.data().rating; index++) {
                     element.children[index].style.color = '#b71c1c';
                 }
             }

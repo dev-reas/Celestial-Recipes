@@ -9,7 +9,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "recipeDate",
+          "fieldPath": "ratingDate",
           "order": "DESCENDING"
         }
       ]

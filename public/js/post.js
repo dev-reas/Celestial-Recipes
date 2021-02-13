@@ -55,10 +55,13 @@ const postRecipe = (user) => {
             recipeAuthorUID: user.uid,
             recipeAuthorPhoto: user.photoURL,
             recipeDate: firebase.firestore.Timestamp.now(),
-            avrRating: 0,
-            numRatings: 0,
         }).then((docRef) => {
-
+            db.collection('avrRatings').add({
+                ratingAverage: 0,
+                numRatings: 0,
+                userId: user.uid,
+                recipeId: docRef.id,
+            });
             createRecipe.reset();
             window.location = 'home.html';
         }).catch(err => {
