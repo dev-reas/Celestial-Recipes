@@ -1,4 +1,4 @@
-const recipeListRates = document.querySelector('.recipesRates');
+const recipeListRates = document.querySelector('#recipesRates');
 
 db.collection('recipe').orderBy('avrRating', 'desc').get().then(snapshot => {
     snapshot.docs.forEach(doc => {

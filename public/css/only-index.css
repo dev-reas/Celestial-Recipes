@@ -1,0 +1,4 @@
+.row .col {
+    display: inline-block !important;
+    float: none !important;
+}

@@ -24,6 +24,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  font-family: 'Barlow', sans-serif;
 }
 
 main {
@@ -35,16 +36,14 @@ main {
   background-color: #b71c1c;
 }
 
-
-
-.title h4 {
-  align-self: center;
+.title {
+  margin-left: 40%;
   font-weight: 700;
   font-family: Courier New;
   font-size: 50px;
 }
 
-/* Login page */
+
 .logo {
   height: 60px;
   width: 120px;
@@ -71,26 +70,12 @@ button {
   cursor: pointer;
 }
 
-.user-view {
-  height: 30%;
-}
-
-body {
-  font-family: 'Barlow', sans-serif;
-}
-
 .card {
   border-radius: 15px;
 }
 
 .card-image {
   border-radius: 15px 15px 0 0;
-}
-
-.card .card-image img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
 }
 
 .card-title {
@@ -108,17 +93,15 @@ body {
 
 .card--recipe-category {
   margin-top: 0px;
-  margin-bottom: 7%;
-  /* margin-bottom: 15px; */
+  margin-bottom: 15px;
   font-size: 12px;
   color: #ffc901;
   text-transform: uppercase;
-  /* margin-right: 15px; */
+  margin-right: 15px;
 }
 
 .card--recipe-time {
   margin: 0px;
-  margin-bottom: 5%;
   font-size: 12px;
   color: #ccc;
 }
@@ -127,10 +110,20 @@ body {
   margin-right: 5px;
 }
 
-.card-description p {
-  text-align: justify;
-  font-size: 1vw;
+.card--description {
+  font-size: 12px;
   line-height: 150%;
+}
+
+
+.card--rating-wrapper {
+  display: flex;
+  align-items: baseline;
+}
+
+.card--rating-stars--wrapper {
+  display: flex;
+  margin-right: 10px;
 }
 
 .card--rating-star {
@@ -139,28 +132,15 @@ body {
   margin-right: 2px;
 }
 
-.cardRateCounter {
-  color: #c62828;
-}
-
-.commentCounter {
-  margin: 0;
-  margin-right: 2%;
-}
-
-/* .card--rating-star.filled:after {
+.card--rating-star.filled:after {
   position: absolute;
   left: 0;
   content: "\2605";
   color: #D99525;
-} */
+}
 
 .card--rating-count {
   font-size: 12px;
-}
-
-.card .card-action {
-  padding: 14px 0px 0px 0px !important;
 }
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
@@ -179,7 +159,6 @@ body {
 }
 
 
-
 .card--rating-wrapper {
   display: flex;
   align-items: baseline;
@@ -187,7 +166,6 @@ body {
 
 .card--rating-stars--wrapper {
   display: flex;
-  flex-direction: row;
   margin-right: 10px;
 }
 
@@ -195,6 +173,13 @@ body {
   position: relative;
   color: #b6b6b6;
   margin-right: 2px;
+}
+
+.card--rating-star.filled:after {
+  position: absolute;
+  left: 0;
+  content: "\2605";
+  color: #D99525;
 }
 
 .card--rating-count {
@@ -250,68 +235,17 @@ body {
   color: #b71c1c;
 }
 
+.cardRateCounter {
+  color: #c62828;
+}
+
+.commentCounter {
+  margin: 0;
+  margin-right: 2%;
+}
+
+
 .ratingsAndView {
   justify-content: space-between !important;
-}
-
-
-.social-menu {
-  padding-top: 200px;
-  margin-left: 38%;
-}
-
-
-.social-menu ul {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
-.social-menu ul li {
-  list-style: none;
-  margin: 0 10px;
-}
-
-.social-menu ul li .fa {
-  color: #000000;
-  font-size: 25px;
-  line-height: 50px;
-  transition: .5s;
-}
-
-.social-menu ul li .fa:hover {
-  color: #ffffff;
-}
-
-.social-menu ul li a {
-  position: relative;
-  display: block;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: white;
-  text-align: center;
-  transition: 0.5s;
-  transform: translate(0, 0px);
-  box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.5);
-}
-
-.social-menu ul li a:hover {
-  transform: rotate(0deg) skew(0deg) translate(0, -10px);
-}
-
-.social-menu ul li:nth-child(1) a:hover {
-  background-color: #3b5999;
-}
-
-.social-menu ul li:nth-child(2) a:hover {
-  background-color: #55acee;
-}
-
-.social-menu ul li:nth-child(3) a:hover {
-  background-color: #e4405f;
 }
 

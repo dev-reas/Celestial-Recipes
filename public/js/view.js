@@ -285,10 +285,9 @@ const submitRatings = (params) => {
                     userId: user.uid,
                 });
 
-                var sfDocRef = db.collection("recipe").doc(params);
+                var sfDocRef = db.collection("recipe").doc();
 
                 return db.runTransaction((transaction) => {
-                    // This code may get re-run multiple times if there are conflicts.
                     return transaction.get(sfDocRef).then((sfDoc) => {
                         if (!sfDoc.exists) {
                             throw "Document does not exist!";

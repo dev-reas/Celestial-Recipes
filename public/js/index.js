@@ -100,7 +100,7 @@ const renderRecipe = (doc, commentsCounter) => {
 
     let fragment = new DocumentFragment();
     let div = document.createElement('div');
-    div.setAttribute('class', 'col l3 m6 s12 right');
+    div.setAttribute('class', 'col l3 m6 s12');
     div.setAttribute('data-id', doc.id);
 
     div.innerHTML = html;
