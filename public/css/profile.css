@@ -598,3 +598,12 @@ button.createbtn i {
     width: max-content !important;
     height: auto !important;
 }
+
+.profileBtns {
+    display: flex;
+    flex-direction: row;
+}
+
+.profileBtns div {
+    margin: 2%;
+}

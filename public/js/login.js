@@ -145,3 +145,16 @@ facebookSignIn.addEventListener('click', (e) => {
         });
 });
 
+const resetPassword = document.querySelector('#resetPassword');
+resetPassword.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const forgot = document.querySelector('.forgot');
+
+    var emailAddress = resetPassword['emailReset'].value;
+
+    auth.sendPasswordResetEmail(emailAddress).then(function () {
+        forgot.textContent = 'Reset password sent';
+    }).catch(function (error) {
+        console.log(error);
+    });
+});

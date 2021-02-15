@@ -139,7 +139,7 @@
                                         <tr>
                                             <td>
                                                 <i class="material-icons left">badge</i>
-                                                <p class="user-mail" id="dataName"> </p>
+                                                <p class="user-mail" id="dataName"></p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -172,11 +172,25 @@
                                     </tbody>
                                 </table>
 
-                                <div class="profile-btn" style="margin-top: 10px;">
-                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
-                                        <i class="fas fa-edit"></i>
-                                        Edit Profile
-                                    </a>
+                                <div class="profileBtns">
+                                    <div class="profile-btn" style="margin-top: 10px;">
+                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
+                                            <i class="fas fa-edit"></i>
+                                            Edit Profile
+                                        </a>
+                                    </div>
+                                    <div class="profile-btn" style="margin-top: 10px;">
+                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-email">
+                                            <i class="fas fa-edit"></i>
+                                            Edit Email
+                                        </a>
+                                    </div>
+                                    <div class="profile-btn" style="margin-top: 10px;">
+                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-password">
+                                            <i class="fas fa-edit"></i>
+                                            Edit Password
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- </div> -->
@@ -358,7 +372,7 @@
                         <div class="file-field input-field">
                             <div class="btn">
                                 <span>File</span>
-                                <input type="file" id="recipeFile" required>
+                                <input type="file" id="recipeFile" accept="image/*" required>
                             </div>
                             <div class="file-path-wrapper">
                                 <input class="file-path validate" type="text" required>
@@ -379,58 +393,138 @@
             </div>
         </div>
 
-        <!-- <div id="modal-profile" class="modal">
-            <div class="modal-content">
-                <form class="col s12">
+        <div id="modal-profile" class="modal">
+            <form id="update-profile">
+                <div class="modal-content">
                     <div class="row">
                         <div class="input-field col s6">
-                            <i class="small material-icons prefix">accessibility</i>
-                            <input id="first_name" type="text" class="validate" data-length="10">
+                            <i class="small material-icons prefix">badge</i>
+                            <textarea id="first_name" class="materialize-textarea validate" required></textarea>
                             <label for="first_name">First Name</label>
                         </div>
 
                         <div class="input-field col s6">
-                            <input id="last_name" type="text" class="validate">
+                            <textarea id="last_name" class="materialize-textarea validate" required></textarea>
                             <label for="last_name">Last Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="small material-icons prefix">contact_mail</i>
-                            <input id="email" type="email" class="validate">
-                            <label for="email">Email</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">phone</i>
-                            <input id="contact" type="tel" class="validate">
+                            <i class="material-icons prefix">contact_phone</i>
+                            <input id="contact" type="tel" class="validate" required>
                             <label for="contact">Contact #</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="material-icons prefix">map</i>
-                            <input id="address" type="text" class="validate">
+                            <i class="material-icons prefix">home</i>
+                            <input id="address" type="text" class="validate" required>
                             <label for="address">Address </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="material-icons prefix">map</i>
-                            <input id="occupation" type="text" class="validate">
+                            <i class="material-icons prefix">work</i>
+                            <input id="occupation" type="text" class="validate" required>
                             <label for="occupation">Profession </label>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" id="updateProfileImg" accept="image/*" required>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" required>
+                        </div>
+                        <div class="progress">
+                            <div class="determinate" id="profileImgUploader" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="modal-footer">
-                <button class="btn  amber darken-1 waves-effect waves-light" type="submit" name="action">Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </div> -->
+                <div class="modal-footer">
+                    <button class="btn modal-close amber darken-1 waves-effect waves-light">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="modal-email" class="modal">
+            <form id="update-email">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">contact_mail</i>
+                            <input id="oldEmail" type="email" class="validate" required>
+                            <label for="oldEmail">Old Email</label>
+                            <span class="helper-text oldEmailText"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">contact_mail</i>
+                            <input id="email" type="email" class="validate" required>
+                            <label for="email">New Email</label>
+                            <span class="helper-text"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">contact_mail</i>
+                            <input id="confirmEmail" type="email" class="validate" required>
+                            <label for="confirmEmail">Confirm Email</label>
+                            <span class="helper-text"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn amber darken-1 waves-effect waves-light">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="modal-password" class="modal">
+            <form id="update-password">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input id="oldPassword" type="password" class="validate" required>
+                            <label for="oldPassword">Old Password</label>
+                            <span class="helper-text oldPasswordText"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input id="password" type="password" class="validate" required>
+                            <label for="password">New Password</label>
+                            <span class="helper-text spanPassword passwordText"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input id="confirmPassword" type="password" class="validate" required>
+                            <label for="confirmPassword">Confirm Password</label>
+                            <span class="helper-text spanPassword"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn amber darken-1 waves-effect waves-light">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <div id="modal1" class="modal">
             <div class="modal-content">
                 <h4>Edit your recipe</h4>
@@ -582,7 +676,7 @@
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>File</span>
-                        <input type="file" id="updateRecipeFile" required>
+                        <input type="file" id="updateRecipeFile" accept="image/*" required>
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text" required>

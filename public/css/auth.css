@@ -1,0 +1,275 @@
+body {
+  display: block;
+  background-image: url(https://images.pexels.com/photos/326279/pexels-photo-326279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+  color: #fff;
+  font-family: "Titillium Web", sans-serif;
+}
+
+
+.btn-large {
+  height: 54px;
+  line-height: 54px;
+  font-size: 8px;
+  border-radius: 10px;
+}
+
+.line {
+  width: 100%;
+  position: relative;
+}
+
+.line:after,
+.line:before {
+  content: ' ';
+  position: absolute;
+  margin: auto;
+  height: 2px;
+  background: #fff;
+  width: 45%;
+  top: 45%;
+}
+
+.line::after {
+  left: 0;
+}
+
+.line::before {
+  right: 0;
+}
+
+.circle {
+  height: 30px;
+  width: 20px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.form {
+  background: rgba(0, 0, 0, .6);
+  padding: 40px;
+  width: 70%;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+
+}
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #a0b3b0;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.tab-group li a:hover {
+  background: #b71c1c;
+  color: #ffffff;
+}
+
+.tab-group .active a {
+  background: #ffc901;
+  color: #ffffff;
+}
+
+.tab-content>div:last-child {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
+  font-family: initial;
+}
+
+.forgot {
+  margin-top: 10px;
+  text-align: left;
+  margin-left: 15px;
+
+}
+
+.forgot a {
+  color: #fff;
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+  top: -4px;
+  left: -5px;
+  width: 12px;
+  height: 22px;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid #ffc901;
+  border-bottom: 2px solid #ffc901;
+  -webkit-transform: rotate(40deg);
+  transform: rotate(40deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+}
+
+input.invalid:not([type]),
+input.invalid:not([type]):focus,
+input.invalid[type=text]:not(.browser-default),
+input.invalid[type=text]:not(.browser-default):focus,
+input.invalid[type=password]:not(.browser-default),
+input.invalid[type=password]:not(.browser-default):focus,
+input.invalid[type=email]:not(.browser-default),
+input.invalid[type=email]:not(.browser-default):focus,
+input.invalid[type=url]:not(.browser-default),
+input.invalid[type=url]:not(.browser-default):focus,
+input.invalid[type=time]:not(.browser-default),
+input.invalid[type=time]:not(.browser-default):focus,
+input.invalid[type=date]:not(.browser-default),
+input.invalid[type=date]:not(.browser-default):focus,
+input.invalid[type=datetime]:not(.browser-default),
+input.invalid[type=datetime]:not(.browser-default):focus,
+input.invalid[type=datetime-local]:not(.browser-default),
+input.invalid[type=datetime-local]:not(.browser-default):focus,
+input.invalid[type=tel]:not(.browser-default),
+input.invalid[type=tel]:not(.browser-default):focus,
+input.invalid[type=number]:not(.browser-default),
+input.invalid[type=number]:not(.browser-default):focus,
+input.invalid[type=search]:not(.browser-default),
+input.invalid[type=search]:not(.browser-default):focus,
+textarea.materialize-textarea.invalid,
+textarea.materialize-textarea.invalid:focus,
+.select-wrapper.invalid>input.select-dropdown,
+.select-wrapper.invalid>input.select-dropdown:focus {
+  border-bottom: 1px solid #ffc901;
+  -webkit-box-shadow: 0 1px 0 0 #ffc901;
+  box-shadow: 0 1px 0 0 #ffc901;
+  color: #fff;
+}
+
+input.invalid:not([type]),
+input.invalid:not([type]):focus,
+input.invalid[type=text]:not(.browser-default),
+input.invalid[type=text]:not(.browser-default):focus,
+input.invalid[type=password]:not(.browser-default),
+input.invalid[type=password]:not(.browser-default):focus,
+input.invalid[type=email]:not(.browser-default),
+input.invalid[type=email]:not(.browser-default):focus,
+input.invalid[type=url]:not(.browser-default),
+input.invalid[type=url]:not(.browser-default):focus,
+input.invalid[type=time]:not(.browser-default),
+input.invalid[type=time]:not(.browser-default):focus,
+input.invalid[type=date]:not(.browser-default),
+input.invalid[type=date]:not(.browser-default):focus,
+input.invalid[type=datetime]:not(.browser-default),
+input.invalid[type=datetime]:not(.browser-default):focus,
+input.invalid[type=datetime-local]:not(.browser-default),
+input.invalid[type=datetime-local]:not(.browser-default):focus,
+input.invalid[type=tel]:not(.browser-default),
+input.invalid[type=tel]:not(.browser-default):focus,
+input.invalid[type=number]:not(.browser-default),
+input.invalid[type=number]:not(.browser-default):focus,
+input.invalid[type=search]:not(.browser-default),
+input.invalid[type=search]:not(.browser-default):focus,
+textarea.materialize-textarea.invalid,
+textarea.materialize-textarea.invalid:focus,
+.select-wrapper.invalid>input.select-dropdown,
+.select-wrapper.invalid>input.select-dropdown:focus {
+  border-bottom: 1px solid #ffc901;
+  -webkit-box-shadow: 0 1px 0 0 #ffc901;
+  box-shadow: 0 1px 0 0 #ffc901;
+}
+
+
+.input-field .prefix~input,
+.input-field .prefix~textarea,
+.input-field .prefix~label,
+.input-field .prefix~.validate~label,
+.input-field .prefix~.helper-text,
+.input-field .prefix~.autocomplete-content {
+  margin-left: 3rem;
+  width: 92%;
+  width: calc(100% - 3rem);
+  color: white;
+}
+
+
+
+.register:hover {
+  background-color: #b71c1c;
+  color: black;
+}
+
+.login button:hover {
+  background-color: #b71c1c;
+  color: black;
+}
+
+
+.fb {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-size: 1.3em;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: #3b5998;
+  color: #fff;
+}
+
+
+.gmail {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-size: 1.3em;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: #EA4335;
+  color: #fff;
+}
+
+.input-field input {
+  color: white;
+}
+
+.modal-content,
+.modal-content .input-field,
+.modal-content .input-field input,
+.modal-content .input-field label {
+  color: black !important;
+}

@@ -10,9 +10,24 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/profile{,/**}",
+        "destination": "/404.html"
+      },
+      {
+        "source": "/view{,/**}",
+        "destination": "/404.html"
+      },
+      {
+        "source": "!/@(js|css)/**",
+        "destination": "/index.html"
       }
     ]
   },
+  "cleanUrls": true,
+  "trailingSlash": false,
+
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

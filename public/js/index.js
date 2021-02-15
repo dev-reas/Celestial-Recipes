@@ -9,7 +9,7 @@ db.collection('recipe').orderBy('recipeDate', 'desc').get().then(snapshot => {
 const getComments = (recipeData) => {
     db.collection("avrRatings").where("recipeId", "==", recipeData.id).get().then((querySnapshot) => {
         querySnapshot.forEach((docRef) => {
-            renderRecipe(recipeData, docRef.data().numRatings);
+            getUser(recipeData, docRef.data().numRatings);
             showUserRating(docRef);
         });
     }).catch((error) => {
@@ -17,8 +17,18 @@ const getComments = (recipeData) => {
     });
 }
 
+const getUser = (recipeDocs, dataCounter) => {
+    db.collection('users').where('userUID', '==', recipeDocs.data().recipeAuthorUID).get().then((querySnapshot) => {
+        querySnapshot.forEach((sfDoc) => {
+            renderRecipe(recipeDocs, dataCounter, sfDoc);
+        });
+    }).catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+}
 
-const renderRecipe = (doc, ratingsCounter) => {
+
+const renderRecipe = (doc, ratingsCounter, userDocs) => {
     let titleCut = '';
     if (doc.data().recipeTitle.length > 20) {
         titleCut = doc.data().recipeTitle.substring(0, 20) + ' ...';
@@ -43,7 +53,7 @@ const renderRecipe = (doc, ratingsCounter) => {
                 <div class="card--recipe-info">
                     <a>
                         <h2 class="card--recipe-category flow-text">
-                            By: ${doc.data().recipeAuthor}
+                            By: ${userDocs.data().userName}
                         </h2>
                     </a>
                 </div>

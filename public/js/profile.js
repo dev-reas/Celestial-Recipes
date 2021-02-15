@@ -4,32 +4,34 @@ const ShoppingList = document.querySelector('#shoppingList');
 const setStatus = document.querySelector('#setStatus');
 const deleteShopping = document.querySelector('#deleteShopping');
 
-function renderRecipe(doc) {
+
+// render recipes
+function renderRecipe(recipeDocs, userDocs) {
     let titleCut = '';
-    if (doc.data().recipeTitle.length > 35) {
-        titleCut = doc.data().recipeTitle.substring(0, 35) + ' ...';
+    if (recipeDocs.data().recipeTitle.length > 35) {
+        titleCut = recipeDocs.data().recipeTitle.substring(0, 35) + ' ...';
     }
 
     else {
-        titleCut = doc.data().recipeTitle;
+        titleCut = recipeDocs.data().recipeTitle;
     }
-    let event = new Date(doc.data().recipeDate.toDate());
+    let event = new Date(recipeDocs.data().recipeDate.toDate());
     let html = [
         `
         <div class="card">
             <div class="card-image waves-effect hoverable waves-block waves-light">
-                <img class="activator responsive-img" src="${doc.data().recipeImg}">
-                <a class='dropdown-trigger right' href='#' data-target='editBtn${doc.id}'>
+                <img class="activator responsive-img" src="${recipeDocs.data().recipeImg}">
+                <a class='dropdown-trigger right' href='#' data-target='editBtn${recipeDocs.id}'>
                         <i class="material-icons right" style="color: #b71c1c;">more_vert</i>
                     </a>
 
-                    <ul id='editBtn${doc.id}' class='dropdown-content'>
+                    <ul id='editBtn${recipeDocs.id}' class='dropdown-content'>
                         <li>
-                            <a id="edit${doc.id}" class="modal-trigger" href="#modal1">
+                            <a id="edit${recipeDocs.id}" class="modal-trigger" href="#modal1">
                                 <i class="material-icons">edit</i>Edit
                             </a>
                         </li>
-                        <li><a href="#!" id="del${doc.id}"><i class="material-icons">delete_forever</i>Delete</a></li>
+                        <li><a href="#!" id="del${recipeDocs.id}"><i class="material-icons">delete_forever</i>Delete</a></li>
                         <li><a href="#!"><i class="material-icons">pageview</i>View</a></li>
                         </ul>
             </div>
@@ -43,14 +45,14 @@ function renderRecipe(doc) {
                 <div class="card--recipe-info">
                     <a>
                         <h2 class="card--recipe-category flow-text">
-                            By: ${doc.data().recipeAuthor}
+                            By: ${userDocs.data().userName}
                         </h2>
                     </a>
                 </div>
                 <div class="card--recipe-info">
                     <p class="card--recipe-time flow-text">
                         <i class="material-icons left tiny">schedule</i>
-                        ${doc.data().prepTime}
+                        ${recipeDocs.data().prepTime}
                     </p>
                 </div>
                 <div class="card--recipe-info">
@@ -69,19 +71,19 @@ function renderRecipe(doc) {
                 </div>
                 <div class="card-action">
                     <div class="viewrecipe center">
-                        <a href="view.html?view=${encodeURIComponent(doc.data().recipeTitle)}">View Recipe</a>
+                        <a href="view.html?view=${encodeURIComponent(recipeDocs.data().recipeTitle)}">View Recipe</a>
                     </div>
                 </div>
             </div>
             <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">
-                    ${doc.data().recipeTitle}
+                    ${recipeDocs.data().recipeTitle}
                     <i class="material-icons right">
                         close
                     </i>
                 </span>
                 <div class="card--description">
-                    ${doc.data().recipeDesc}
+                    ${recipeDocs.data().recipeDesc}
                 </div>
             </div>
         </div>
@@ -90,7 +92,7 @@ function renderRecipe(doc) {
     let fragment = new DocumentFragment();
     let div = document.createElement('div');
     div.setAttribute('class', 'col l4 m6 s12');
-    div.setAttribute('data-id', doc.id);
+    div.setAttribute('data-id', recipeDocs.id);
 
     div.innerHTML = html;
 
@@ -109,7 +111,7 @@ function renderRecipe(doc) {
     fragment.appendChild(div);
     recipeList.appendChild(fragment);
 
-    const editBtn = document.getElementById('edit' + doc.id);
+    const editBtn = document.getElementById('edit' + recipeDocs.id);
 
     editBtn.addEventListener('click', (e) => {
         let id = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
@@ -186,7 +188,7 @@ function renderRecipe(doc) {
         });
     });
 
-    const delBtn = document.getElementById('del' + doc.id);
+    const delBtn = document.getElementById('del' + recipeDocs.id);
 
     delBtn.addEventListener('click', (e) => {
         const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
@@ -198,6 +200,7 @@ function renderRecipe(doc) {
     });
 }
 
+// render shopping list
 const renderShopping = (recipeId, userShoppingList) => {
     var li = document.createElement('li');
     var divBody = document.createElement('div');
@@ -262,14 +265,23 @@ const renderShopping = (recipeId, userShoppingList) => {
     fragment.appendChild(divBody);
     li.appendChild(fragment);
     ShoppingList.appendChild(li);
-
 }
 
+// get users collection and send in function renderRecipe
+const getUsers = (recipeDocs) => {
+    db.collection('users').where('userUID', '==', recipeDocs.data().recipeAuthorUID).get().then(snapshot => {
+        snapshot.docs.forEach(userDocs => {
+            renderRecipe(recipeDocs ,userDocs);
+        });
+    });
+}
+
+// get all collection which have the current user ID
 const ProfileView = (user) => {
     userId = user.uid;
     db.collection('recipe').where("recipeAuthorUID", "==", userId).get().then(snapshot => {
         snapshot.docs.forEach(doc => {
-            renderRecipe(doc);
+            getUsers(doc);
         });
     });
 
@@ -290,38 +302,194 @@ const ProfileView = (user) => {
     });
 }
 
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        ProfileView(user);
+// get current user
+const profileDesc = () => {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            ProfileView(user);
 
-        const profileImg = document.querySelector('#profileImg');
-        const profileName = document.querySelector('#profileName');
-        const dataName = document.querySelector('#dataName');
-        const dataEmail = document.querySelector('#dataEmail');
-        const dataNumber = document.querySelector('#dataNumber');
-        const dataAddress = document.querySelector('#dataAddress');
-        const dataJob = document.querySelector('#dataJob');
-        db.collection('users').doc(user.uid).get().then(doc => {
-            profileImg.setAttribute('src', doc.data().userImg);
-            profileName.textContent = doc.data().userName;
+            const profileImg = document.querySelector('#profileImg');
+            const profileName = document.querySelector('#profileName');
+            const dataName = document.querySelector('#dataName');
+            const dataEmail = document.querySelector('#dataEmail');
+            const dataNumber = document.querySelector('#dataNumber');
+            const dataAddress = document.querySelector('#dataAddress');
+            const dataJob = document.querySelector('#dataJob');
+            db.collection('users').doc(user.uid).get().then(doc => {
+                profileImg.setAttribute('src', doc.data().userImg);
+                profileName.textContent = doc.data().userName;
 
-            dataName.textContent = doc.data().userName;
-            dataEmail.textContent = doc.data().userEmail;
-            dataNumber.textContent = doc.data().userContact;
-            dataAddress.textContent = doc.data().userAddress;
-            dataJob.textContent = doc.data().userJob;
-        });
-    }
-
-    else {
-        if (window.location.href == 'http://localhost:5000/profile.html') {
-            var urlLink = "localhost:5000";
-            window.location.replace('login-page.html')
+                dataName.textContent = doc.data().userName;
+                dataEmail.textContent = doc.data().userEmail;
+                dataNumber.textContent = doc.data().userContact;
+                dataAddress.textContent = doc.data().userAddress;
+                dataJob.textContent = doc.data().userJob;
+            });
         }
-    }
+
+        else {
+            if (window.location.href == 'http://localhost:5000/profile.html') {
+                window.location.replace('auth.html');
+            }
+        }
+    });
+}
+
+profileDesc();
+
+// upload image for user
+let userPhotoDownURL = '';
+var uploader = document.getElementById('profileImgUploader');
+var fileButton = document.getElementById('updateProfileImg');
+fileButton.addEventListener('change', (e) => {
+    e.preventDefault();
+    var file = e.target.files[0];
+    var storageRef = store.ref('userImages/' + file.name);
+    var task = storageRef.put(file);
+    task.on('state_changed', function progress(snapshot) {
+        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        uploader.style.width = percentage + '%';
+    }, (error) => {
+        console.error(error);
+
+    }, () => {
+        task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log('File available at', downloadURL);
+            userPhotoDownURL = downloadURL;
+        });
+    });
+});
+
+// update user Info
+const updateProfileDesc = document.querySelector('#update-profile');
+updateProfileDesc.addEventListener('submit', (e) => {
+    e.preventDefault();
+    var name = updateProfileDesc['first_name'].value + ' ' + updateProfileDesc['last_name'].value;
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            user.updateProfile({
+                displayName: name,
+                photoURL: userPhotoDownURL
+            });
+
+            db.collection('users').doc(user.uid).update({
+                userName: name,
+                userContact: updateProfileDesc['contact'].value,
+                userJob: updateProfileDesc['occupation'].value,
+                userAddress: updateProfileDesc['address'].value,
+                userImg: userPhotoDownURL,
+            }).then(() => {
+                const profileModal = document.querySelector('#modal-profile');
+                M.Modal.getInstance(profileModal).close();
+                updateProfileDesc.reset();
+                profileDesc();
+            });
+        }
+    });
 });
 
 
+// update Email
+const updateEmail = document.querySelector('#update-email');
+updateEmail.addEventListener('submit', (e) => {
+    e.preventDefault();
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            const helperText = document.querySelectorAll('.helper-text');
+            const oldEmailText = document.querySelector('.oldEmailText');
+            console.log(user.email);
+            if (updateEmail['oldEmail'].value == user.email) {
+                updateEmail['oldEmail'].removeAttribute('class', 'invalid');
+                if (updateEmail['email'].value == updateEmail['confirmEmail'].value) {
+                    updateEmail['email'].removeAttribute('class', 'invalid');
+                    updateEmail['confirmEmail'].removeAttribute('class', 'invalid');
+
+                    user.updateEmail(updateEmail['email'].value).then(() => {
+                        db.collection('users').doc(user.uid).update({
+                            userEmail: updateEmail['email'].value,
+                        }).then(() => {
+                            auth.signOut();
+                            window.location.replace('auth.html');
+                        });
+                    }).catch((error) => {
+                        // An error happened.
+                    });
+                }
+
+                else {
+                    updateEmail['email'].setAttribute('class', 'invalid');
+                    updateEmail['confirmEmail'].setAttribute('class', 'invalid');
+                    for (var index = 0; index < helperText.length; index++) {
+                        helperText[index].setAttribute('data-error', 'Check email if same');
+                    }
+                }
+            }
+
+            else {
+                updateEmail['oldEmail'].setAttribute('class', 'invalid');
+                oldEmailText.setAttribute('data-error', 'Email Mismatch');
+            }
+        }
+    });
+});
+
+// update Password
+const updatePassword = document.querySelector('#update-password');
+updatePassword.addEventListener('submit', (e) => {
+    e.preventDefault();
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            const spanPassword = document.querySelectorAll('.spanPassword');
+            const oldPasswordText = document.querySelector('.oldPasswordText');
+            const passwordText = document.querySelector('.passwordText');
+
+            const credential = firebase.auth.EmailAuthProvider.credential(
+                user.email,
+                updatePassword['oldPassword'].value,
+            );
+
+            user.reauthenticateWithCredential(credential).then(function () {
+                updatePassword['oldPassword'].removeAttribute('class', 'invalid');
+                if (updatePassword['password'].value.length > 8) {
+                    updatePassword['password'].removeAttribute('class', 'invalid');
+                    console.log(updatePassword['password'].value);
+                    console.log(updatePassword['confirmPassword'].value);
+                    if (updatePassword['password'].value == updatePassword['confirmPassword'].value) {
+                        console.log(updatePassword['password'].value);
+                        console.log(updatePassword['confirmPassword'].value);
+                        updatePassword['password'].removeAttribute('class', 'invalid');
+                        updatePassword['confirmPassword'].removeAttribute('class', 'invalid');
+
+                        user.updatePassword(updatePassword['password'].value).then(function () {
+                            auth.signOut();
+                            window.location.replace('auth.html');
+                        }).catch(function (error) {
+                            // An error happened.
+                        });
+                    }
+
+                    else {
+                        updatePassword['password'].setAttribute('class', 'invalid');
+                        updatePassword['confirmPassword'].setAttribute('class', 'invalid');
+                        for (var index = 0; index < spanPassword.length; index++) {
+                            spanPassword[index].setAttribute('data-error', 'Check password if same');
+                        }
+                    }
+                }
+
+                else {
+                    updatePassword['password'].setAttribute('class', 'invalid');
+                    passwordText.setAttribute('data-error', 'Password must be greater than 8 characters');
+                }
+            }).catch(function (error) {
+                updatePassword['oldPassword'].setAttribute('class', 'invalid');
+                oldPasswordText.setAttribute('data-error', error.message);
+            });
+        }
+    });
+});
+
+// set status of shopping list where checkbox is checked
 setStatus.addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -369,8 +537,7 @@ setStatus.addEventListener('click', (e) => {
     });
 });
 
-
-
+// delete shopping list where checkbox is checked
 deleteShopping.addEventListener('click', (e) => {
     e.preventDefault();
 

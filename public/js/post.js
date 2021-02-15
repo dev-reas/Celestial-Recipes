@@ -51,9 +51,7 @@ const postRecipe = (user) => {
             instruction: lines,
             ingredient: linesIngr,
             recipeImg: photoDownURL,
-            recipeAuthor: user.displayName,
             recipeAuthorUID: user.uid,
-            recipeAuthorPhoto: user.photoURL,
             recipeDate: firebase.firestore.Timestamp.now(),
         }).then((docRef) => {
             db.collection('avrRatings').add({

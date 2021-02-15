@@ -104,9 +104,18 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
     querySnapshot.forEach(function (doc) {
         let event = new Date(doc.data().recipeDate.toDate());
 
-        userImage.setAttribute('src', doc.data().recipeAuthorPhoto);
+
+        db.collection('users').where('userUID', '==', doc.data().recipeAuthorUID).get().then((querySnapshot) => {
+            querySnapshot.forEach((sfDoc) => {
+                userImage.setAttribute('src', sfDoc.data().userImg);
+                userName.textContent = 'By: ' + sfDoc.data().userName;
+            });
+        }).catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+        
         recipeImg.setAttribute('src', doc.data().recipeImg);
-        userName.textContent = 'By: ' + doc.data().recipeAuthor;
+        
         recipeTitle.textContent = doc.data().recipeTitle;
         recipeDate.textContent = event.toLocaleString();
         recipeDesc.textContent = doc.data().recipeDesc;
@@ -305,7 +314,7 @@ const submitRatings = (params) => {
             }
 
             else {
-                location.replace('http://localhost:5000/login-page.html');
+                location.replace('http://localhost:5000/auth.html');
             }
         });
     });
