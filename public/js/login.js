@@ -47,14 +47,14 @@ googleSignIn.addEventListener('click', (e) => {
                 userImg = profile.photoURL;
             });
 
-            var docRef = db.collection("users").doc(user.uid);
-
-            docRef.get().then(function (doc) {
-                if (doc.exists) {
+            db.collection("users").where("userUID", "==", user.uid).get().then((querySnapshot) => {
+                if (!querySnapshot.empty) {
                     window.location = 'index.html';
                 }
+
                 else {
-                    db.collection('users').doc(user.uid).set({
+                    console.log('undefined');
+                    db.collection('users').add({
                         userAddress: 'N/A',
                         userContact: 0000000,
                         userEmail: email,
@@ -62,14 +62,14 @@ googleSignIn.addEventListener('click', (e) => {
                         userJob: 'N/A',
                         userName: userName,
                         userUID: user.uid,
-                    }).then(() => {
-                        window.location = 'home.html';
                     }).catch((e) => {
                         console.log(e);
                     });
+
+                    window.location = 'index.html';
                 }
-            }).catch(function (error) {
-                console.log("Error getting document:", error);
+            }).catch((error) => {
+                console.log("Error getting documents: ", error);
             });
 
         }).catch((error) => {
@@ -110,14 +110,15 @@ facebookSignIn.addEventListener('click', (e) => {
                 email = profile.email;
                 userImg = profile.photoURL;
             });
-            var docRef = db.collection("users").doc(user.uid);
 
-            docRef.get().then(function (doc) {
-                if (doc.exists) {
+            db.collection("users").where("userUID", "==", user.uid).get().then((querySnapshot) => {
+                if (!querySnapshot.empty) {
                     window.location = 'index.html';
                 }
+
                 else {
-                    db.collection('users').doc(user.uid).set({
+                    console.log('undefined');
+                    db.collection('users').add({
                         userAddress: 'N/A',
                         userContact: 0000000,
                         userEmail: email,
@@ -125,14 +126,14 @@ facebookSignIn.addEventListener('click', (e) => {
                         userJob: 'N/A',
                         userName: userName,
                         userUID: user.uid,
-                    }).then(() => {
-                        window.location = 'home.html';
                     }).catch((e) => {
                         console.log(e);
                     });
+
+                    window.location = 'index.html';
                 }
-            }).catch(function (error) {
-                console.log("Error getting document:", error);
+            }).catch((error) => {
+                console.log("Error getting documents: ", error);
             });
 
         }).catch((error) => {

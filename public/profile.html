@@ -8,7 +8,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="fabicon.ico">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/profile.css">
 
@@ -73,6 +72,8 @@
                 </div>
             </div>
         </li>
+        <li class="logged-out"><a class="waves-effect" href="auth.html"><i
+                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
         <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
@@ -120,7 +121,7 @@
                             <li onclick="tabs(1)" class="user-post">Recipe
                                 <i class="tiny material-icons left">restaurant</i>
                             </li>
-                            <li onclick="tabs(2)" class="user-post">Shopping List
+                            <li onclick="tabs(2)" class="user-post" id="shoppingNavTab">Shopping List
                                 <i class="tiny material-icons left">shopping_cart</i>
                             </li>
                         </ul>
@@ -201,7 +202,7 @@
 
                         </div>
                     </div>
-                    <div class="profile-reviews tab">
+                    <div class="profile-reviews tab" id="shoppingTab">
                         <form id="shoppingForm">
                             <div class="shoppingDiv row right-align">
                                 <div class="col s12 m6 right-align">
@@ -730,7 +731,7 @@
 
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/materialize.min.js"></script>
-    <script src="js/all.min.js" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $(".sidenav").sidenav();
@@ -747,6 +748,7 @@
         $(document).ready(function () {
             $('.collapsible').collapsible();
         });
+        
     </script>
     <script type="text/javascript" src="js/profile-frontend.js"></script>
     <script type="text/javascript" src="js/profile.js"></script>

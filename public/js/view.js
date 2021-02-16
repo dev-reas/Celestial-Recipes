@@ -4,6 +4,7 @@ let title = decodeURIComponent(searchParams.get('view'));
 
 const recipeTitle = document.querySelector('#recipeTitle');
 const userName = document.querySelector('#recipeAuthor');
+const authorHref = document.querySelector('#recipeAuthorProfile');
 const recipeDate = document.querySelector('#recipeDate');
 const userImage = document.querySelector('#recipeAuthorImage');
 const recipeImg = document.querySelector('.recipe-img');
@@ -109,6 +110,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
             querySnapshot.forEach((sfDoc) => {
                 userImage.setAttribute('src', sfDoc.data().userImg);
                 userName.textContent = 'By: ' + sfDoc.data().userName;
+                authorHref.href = `profile.html?user=${encodeURIComponent(sfDoc.data().userUID)}`;
             });
         }).catch((error) => {
             console.log("Error getting documents: ", error);
@@ -315,6 +317,8 @@ const submitRatings = (params) => {
 
             else {
                 location.replace('http://localhost:5000/auth.html');
+
+                // location.replace('http://https://celestial-recipes.web.app/auth.html');
             }
         });
     });
@@ -405,7 +409,9 @@ const getReviews = (doc, sfDoc) => {
     let html = [
         `
                     <img src="${sfDoc.data().userImg}" alt="profile-img" class="circle">
-                    <span class="title">${sfDoc.data().userName}</span>
+                    <a href="profile.html?user=${encodeURIComponent(sfDoc.data().userUID)}">
+                        <span class="title">${sfDoc.data().userName}</span>
+                    </a>
                     <p class="ratingDateText">${event.toDateString()}</p>
                     <p>
                         ${doc.data().comment}

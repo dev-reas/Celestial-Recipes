@@ -22,7 +22,7 @@ signupForm.addEventListener('submit', (e) => {
                 console.log(error);
             });
 
-            db.collection('users').doc(signupUser.uid).set({
+            db.collection('users').doc().add({
                 userAddress: 'N/A',
                 userContact: 0000000,
                 userEmail: signupUser.email,

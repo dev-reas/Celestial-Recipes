@@ -1,12 +1,15 @@
+let paramsString = window.location.search;
+let searchParams = new URLSearchParams(paramsString);
+let userId = decodeURIComponent(searchParams.get('user'));
+
 const recipeList = document.querySelector('.recipes');
 const updateRecipe = document.querySelector('#update-recipe');
 const ShoppingList = document.querySelector('#shoppingList');
 const setStatus = document.querySelector('#setStatus');
 const deleteShopping = document.querySelector('#deleteShopping');
 
-
 // render recipes
-function renderRecipe(recipeDocs, userDocs) {
+const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
     let titleCut = '';
     if (recipeDocs.data().recipeTitle.length > 35) {
         titleCut = recipeDocs.data().recipeTitle.substring(0, 35) + ' ...';
@@ -21,7 +24,7 @@ function renderRecipe(recipeDocs, userDocs) {
         <div class="card">
             <div class="card-image waves-effect hoverable waves-block waves-light">
                 <img class="activator responsive-img" src="${recipeDocs.data().recipeImg}">
-                <a class='dropdown-trigger right' href='#' data-target='editBtn${recipeDocs.id}'>
+                <a class='dropdown-trigger right dropdownOptions' href='#' data-target='editBtn${recipeDocs.id}'>
                         <i class="material-icons right" style="color: #b71c1c;">more_vert</i>
                     </a>
 
@@ -32,8 +35,7 @@ function renderRecipe(recipeDocs, userDocs) {
                             </a>
                         </li>
                         <li><a href="#!" id="del${recipeDocs.id}"><i class="material-icons">delete_forever</i>Delete</a></li>
-                        <li><a href="#!"><i class="material-icons">pageview</i>View</a></li>
-                        </ul>
+                    </ul>
             </div>
             <div class="card-content">
                 <div class="card--recipe-info">
@@ -56,18 +58,19 @@ function renderRecipe(recipeDocs, userDocs) {
                     </p>
                 </div>
                 <div class="card--recipe-info">
-                    <p class="card--description">
-                        Recipe Ratings:
-                        <div class="card--rating-wrapper right">
-                            <div class="card--rating-stars--wrapper">
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star filled">☆</div>
-                                <div class="card--rating-star">☆</div>
-                            </div>
-                        </div>
-                    </p>
+                    <div class="card--rating-wrapper">
+                        <div class="card--rating-stars--wrapper heartRatings">
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                        </div>            
+                        <span class="commentCounter">
+                            <p class="flow-text">${ratingsCounter}</p>
+                        </span>
+                        <i class="material-icons tiny">comment</i>
+                    </div>
                 </div>
                 <div class="card-action">
                     <div class="viewrecipe center">
@@ -108,6 +111,12 @@ function renderRecipe(recipeDocs, userDocs) {
         });
     });
 
+    auth.onAuthStateChanged((user) => {
+        if (user.uid != userId) {
+            $('.dropdown-trigger').hide();
+        }
+    })
+
     fragment.appendChild(div);
     recipeList.appendChild(fragment);
 
@@ -138,7 +147,7 @@ function renderRecipe(recipeDocs, userDocs) {
                                 e.preventDefault();
 
                                 auth.onAuthStateChanged((user) => {
-                                    if (user) {
+                                    if (user.uid == userId) {
                                         var ingr = document.getElementById("updateRecipeIngrdnt");
                                         var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
                                         var area = document.getElementById("updateRecipeInstrct");
@@ -191,11 +200,15 @@ function renderRecipe(recipeDocs, userDocs) {
     const delBtn = document.getElementById('del' + recipeDocs.id);
 
     delBtn.addEventListener('click', (e) => {
-        const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
-        db.collection("recipe").doc(delId).delete().then(function () {
-            location.reload();
-        }).catch(function (error) {
-            console.error("Error removing document: ", error);
+        auth.onAuthStateChanged((user) => {
+            if (user.uid == userId) {
+                const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
+                db.collection("recipe").doc(delId).delete().then(function () {
+                    location.reload();
+                }).catch(function (error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
         });
     });
 }
@@ -267,21 +280,46 @@ const renderShopping = (recipeId, userShoppingList) => {
     ShoppingList.appendChild(li);
 }
 
+const showUserRating = (doc) => {
+    setTimeout(() => {
+        const heartRatings = document.querySelectorAll('.heartRatings');
+        heartRatings.forEach(element => {
+            var id = element.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
+
+            if (doc.data().recipeId == id) {
+                for (var index = 0; index < doc.data().ratingAverage; index++) {
+                    element.children[index].style.color = '#b71c1c';
+                }
+            }
+        });
+    }, 1500);
+}
+
+const getComments = (recipeData) => {
+    db.collection("avrRatings").where("recipeId", "==", recipeData.id).get().then((querySnapshot) => {
+        querySnapshot.forEach((docRef) => {
+            getUsers(recipeData, docRef.data().numRatings);
+            showUserRating(docRef);
+        });
+    }).catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+}
 // get users collection and send in function renderRecipe
-const getUsers = (recipeDocs) => {
-    db.collection('users').where('userUID', '==', recipeDocs.data().recipeAuthorUID).get().then(snapshot => {
+const getUsers = (recipeDocs, dataCounter) => {
+    db.collection('users').where('userUID', '==', userId).get().then(snapshot => {
         snapshot.docs.forEach(userDocs => {
-            renderRecipe(recipeDocs ,userDocs);
+            renderRecipe(recipeDocs, dataCounter, userDocs);
         });
     });
 }
 
 // get all collection which have the current user ID
-const ProfileView = (user) => {
-    userId = user.uid;
+const ProfileView = () => {
+    // userId = user.uid;
     db.collection('recipe').where("recipeAuthorUID", "==", userId).get().then(snapshot => {
         snapshot.docs.forEach(doc => {
-            getUsers(doc);
+            getComments(doc);
         });
     });
 
@@ -315,22 +353,34 @@ const profileDesc = () => {
             const dataNumber = document.querySelector('#dataNumber');
             const dataAddress = document.querySelector('#dataAddress');
             const dataJob = document.querySelector('#dataJob');
-            db.collection('users').doc(user.uid).get().then(doc => {
-                profileImg.setAttribute('src', doc.data().userImg);
-                profileName.textContent = doc.data().userName;
+            // db.collection('users').doc(user.uid).get().then(doc => {
 
-                dataName.textContent = doc.data().userName;
-                dataEmail.textContent = doc.data().userEmail;
-                dataNumber.textContent = doc.data().userContact;
-                dataAddress.textContent = doc.data().userAddress;
-                dataJob.textContent = doc.data().userJob;
+            // });
+
+            db.collection('users').where('userUID', '==', userId).get().then(snapshot => {
+                if (!snapshot.empty) {
+                    snapshot.docs.forEach(userDocs => {
+                        profileImg.setAttribute('src', userDocs.data().userImg);
+                        profileName.textContent = userDocs.data().userName;
+
+                        dataName.textContent = userDocs.data().userName;
+                        dataEmail.textContent = userDocs.data().userEmail;
+                        dataNumber.textContent = userDocs.data().userContact;
+                        dataAddress.textContent = userDocs.data().userAddress;
+                        dataJob.textContent = userDocs.data().userJob;
+                    });
+                }
+
+                else {
+                    console.log('no document!');
+                }
+            }).catch((error) => {
+                console.log("Error getting documents: ", error);
             });
         }
 
         else {
-            if (window.location.href == 'http://localhost:5000/profile.html') {
-                window.location.replace('auth.html');
-            }
+
         }
     });
 }
@@ -366,7 +416,7 @@ updateProfileDesc.addEventListener('submit', (e) => {
     e.preventDefault();
     var name = updateProfileDesc['first_name'].value + ' ' + updateProfileDesc['last_name'].value;
     auth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user.uid == userId) {
             user.updateProfile({
                 displayName: name,
                 photoURL: userPhotoDownURL
@@ -394,7 +444,7 @@ const updateEmail = document.querySelector('#update-email');
 updateEmail.addEventListener('submit', (e) => {
     e.preventDefault();
     auth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user.uid == userId) {
             const helperText = document.querySelectorAll('.helper-text');
             const oldEmailText = document.querySelector('.oldEmailText');
             console.log(user.email);
@@ -438,7 +488,7 @@ const updatePassword = document.querySelector('#update-password');
 updatePassword.addEventListener('submit', (e) => {
     e.preventDefault();
     auth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user.uid == userId) {
             const spanPassword = document.querySelectorAll('.spanPassword');
             const oldPasswordText = document.querySelector('.oldPasswordText');
             const passwordText = document.querySelector('.passwordText');
@@ -486,6 +536,10 @@ updatePassword.addEventListener('submit', (e) => {
                 oldPasswordText.setAttribute('data-error', error.message);
             });
         }
+
+        else {
+            location.replace('auth.html');
+        }
     });
 });
 
@@ -501,7 +555,7 @@ setStatus.addEventListener('click', (e) => {
     console.log(ingredientArray);
 
     auth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user.uid == userId) {
             let ingredientStatus = false;
             ingredientArray.forEach(element => {
                 var sfDocRef = db.collection("shoppingList").doc(element);
@@ -549,7 +603,7 @@ deleteShopping.addEventListener('click', (e) => {
     console.log(ingredientArray);
 
     auth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user.uid == userId) {
             let ingredientStatus = false;
             ingredientArray.forEach(element => {
                 var sfDocRef = db.collection("shoppingList").doc(element);
@@ -574,4 +628,25 @@ deleteShopping.addEventListener('click', (e) => {
             console.log('no user login');
         }
     });
+});
+
+const shoppingTab = document.querySelector('#shoppingTab');
+const shoppingNavTab = document.querySelector('#shoppingNavTab');
+const dropdownOptions = document.querySelectorAll('.dropdownOptions');
+
+auth.onAuthStateChanged((user) => {
+    // setTimeout(() => {
+    if (user.uid == userId) {
+        setStatus.style.display = 'initial';
+        deleteShopping.style.display = 'initial';
+        console.log(dropdownOptions);
+    }
+
+    else {
+        setStatus.style.display = 'none';
+        deleteShopping.style.display = 'none';
+        shoppingTab.style.display = 'none';
+        shoppingNavTab.style.display = 'none';
+    }
+    // }, 1000)
 });

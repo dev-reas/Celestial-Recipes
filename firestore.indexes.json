@@ -13,6 +13,90 @@
           "order": "DESCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "recipe",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mainIngredient",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recipeDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "recipe",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "cuisine",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recipeDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "recipe",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "meal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recipeDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "recipe",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "occasion",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recipeDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "recipe",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "prepTime",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recipeDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "category",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "numRatings",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []

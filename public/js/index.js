@@ -40,65 +40,65 @@ const renderRecipe = (doc, ratingsCounter, userDocs) => {
     let event = new Date(doc.data().recipeDate.toDate());
     let html = [
         `
-        <div class="card">
-            <div class="card-image hoverable waves-effect waves-block waves-light">
-                <img class="activator responsive-img" src="${doc.data().recipeImg}">
-            </div>
-            <div class="card-content">
-                <div class="card--recipe-info">
-                    <div class="card-title activator grey-text text-darken-4 ">
-                        <h5 class="flow-text">${titleCut}</h5>
-                    </div>
+            <div class="card">
+                <div class="card-image hoverable waves-effect waves-block waves-light">
+                    <img class="activator responsive-img" src="${doc.data().recipeImg}">
                 </div>
-                <div class="card--recipe-info">
-                    <a>
-                        <h2 class="card--recipe-category flow-text">
-                            By: ${userDocs.data().userName}
-                        </h2>
-                    </a>
-                </div>
-                <div class="card--recipe-info">
-                    <p class="card--recipe-time flow-text">
-                        <i class="material-icons left tiny">schedule</i>
-                        ${doc.data().prepTime}
-                    </p>
-                </div>
-                <div class="card--recipe-info">
-                    <div class="card--rating-wrapper">
-                        <div class="card--rating-stars--wrapper heartRatings">
-                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
-                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
-                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
-                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
-                            <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                <div class="card-content">
+                    <div class="card--recipe-info">
+                        <div class="card-title activator grey-text text-darken-4 ">
+                            <h5 class="flow-text">${titleCut}</h5>
                         </div>
-                        
-                        <span class="commentCounter">
-                            <p class="flow-text">${ratingsCounter}</p>
-                        </span>
-                        <i class="material-icons tiny">comment</i>
+                    </div>
+                    <div class="card--recipe-info">
+                        <a href="profile.html?user=${encodeURIComponent(userDocs.data().userUID)}">
+                            <h2 class="card--recipe-category flow-text">
+                                By: ${userDocs.data().userName}
+                            </h2>
+                        </a>
+                    </div>
+                    <div class="card--recipe-info">
+                        <p class="card--recipe-time flow-text">
+                            <i class="material-icons left tiny">schedule</i>
+                            ${doc.data().prepTime}
+                        </p>
+                    </div>
+                    <div class="card--recipe-info">
+                        <div class="card--rating-wrapper">
+                            <div class="card--rating-stars--wrapper heartRatings">
+                                <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                                <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                                <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                                <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                                <div class="card--rating-star"><i class='material-icons'>favorite</i></div>
+                            </div>
+                            
+                            <span class="commentCounter">
+                                <p class="flow-text">${ratingsCounter}</p>
+                            </span>
+                            <i class="material-icons tiny">comment</i>
 
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <div class="viewrecipe center">
+                            <a href="view.html?view=${encodeURIComponent(doc.data().recipeTitle)}">View Recipe</a>
+                        </div>
                     </div>
                 </div>
-                <div class="card-action">
-                    <div class="viewrecipe center">
-                        <a href="view.html?view=${encodeURIComponent(doc.data().recipeTitle)}">View Recipe</a>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                        ${doc.data().recipeTitle}
+                        <i class="material-icons right">
+                            close
+                        </i>
+                    </span>
+                    <div class="card--description">
+                        ${doc.data().recipeDesc}
                     </div>
                 </div>
             </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                    ${doc.data().recipeTitle}
-                    <i class="material-icons right">
-                        close
-                    </i>
-                </span>
-                <div class="card--description">
-                    ${doc.data().recipeDesc}
-                </div>
-            </div>
-        </div>
-            `
+        `
     ].join('');
 
     let fragment = new DocumentFragment();

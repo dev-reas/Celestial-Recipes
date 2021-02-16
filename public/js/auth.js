@@ -1,17 +1,25 @@
 //listen to auth status changes
-
+const profileAuth = document.querySelectorAll('.profileAuth');
 auth.onAuthStateChanged((user) => {
     if (user) {
         setupUI(user);
         renderUser(user);
+        if (profileAuth) {
+            profileAuth.forEach(item => {
+                item.setAttribute('href', `profile.html?user=${encodeURIComponent(user.uid)}`);
+            });
+        }
     }
 
     else {
         setupUI();
-        if (window.location.href == 'http://localhost:5000/profile.html') {
-            var urlLink = "localhost:5000";
-            window.location.replace('auth.html')
-        }
+        // if (window.location.href == 'http://localhost:5000/profile.html') {
+        //     window.location.replace('auth.html');
+        // }
+
+        // if (window.location.href == 'http://https://celestial-recipes.web.app/profile.html') {
+        //     window.location.replace('auth.html');
+        // }
     }
 });
 
@@ -38,36 +46,39 @@ const userView = document.querySelectorAll('.authUserView');
 
 const renderUser = (user) => {
     if (user) {
-        db.collection('users').doc(user.uid).get().then((doc) => {
-            if (doc.exists) {
-                userView.forEach(item => {
-                    let html = [
-                        `
-                        <a>
-                            <img class="circle" src="${doc.data().userImg}" class="dp">
-                        </a>
-                        <a>
-                            <span class="white-text name">
-                                ${doc.data().userName}
-                            </span>
-                        </a>
-                        <a>
-                            <span class="white-text email">
-                                ${doc.data().userEmail}
-                            </span>
-                        </a>
-                    `].join('');
+        db.collection('users').where('userUID', '==', user.uid).get().then(snapshot => {
+            if (!snapshot.empty) {
+                snapshot.docs.forEach(userDocs => {
+                    userView.forEach(item => {
+                        let html = [
+                            `
+                            <a>
+                                <img class="circle" src="${userDocs.data().userImg}" class="dp">
+                            </a>
+                            <a>
+                                <span class="white-text name">
+                                    ${userDocs.data().userName}
+                                </span>
+                            </a>
+                            <a>
+                                <span class="white-text email">
+                                    ${userDocs.data().userEmail}
+                                </span>
+                            </a>
+                        `].join('');
 
-                    const div = document.createElement('div');
-                    div.innerHTML = html;
-                    item.append(div);
+                        const div = document.createElement('div');
+                        div.innerHTML = html;
+                        item.append(div);
+                    });
                 });
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
+            }
+
+            else {
+                console.log('no document!');
             }
         }).catch((error) => {
-            console.log("Error getting document:", error);
+            console.log("Error getting documents: ", error);
         });
     }
 }
