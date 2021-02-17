@@ -1,6 +1,34 @@
 {
   "indexes": [
     {
+      "collectionGroup": "avrRatings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ratingAverage",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "numRatings",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "avrRatings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "numRatings",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "ratingAverage",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "ratings",
       "queryScope": "COLLECTION",
       "fields": [

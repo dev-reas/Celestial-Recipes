@@ -356,7 +356,7 @@ const ProfileView = () => {
 const profileDesc = () => {
     // auth.onAuthStateChanged((user) => {
     //     if (user) {
-    ProfileView(userId);
+    ProfileView();
 
     const profileImg = document.querySelector('#profileImg');
     const profileName = document.querySelector('#profileName');
