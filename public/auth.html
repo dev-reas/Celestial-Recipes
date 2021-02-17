@@ -98,6 +98,7 @@
                 <div class="tab-content">
                     <div id="signup">
                         <h1>Sign Up for Free</h1>
+                        <span class="errorSpan"><p id="errorMessage">test</p></span>
                         <div class="row">
                             <div class="col s6">
                                 <button class="fb waves-effect waves-light" id="facebookSignIn">
@@ -135,7 +136,8 @@
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">email</i>
                                     <input id="signup-email" type="email" class="validate" required>
-                                    <label for="email">Email?</label>
+                                    <label for="email">Email</label>
+                                    <span class="helper-text"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -143,6 +145,7 @@
                                     <i class="material-icons prefix">vpn_key</i>
                                     <input id="signup-password" type="password" class="validate" required>
                                     <label for="password">Password</label>
+                                    <span class="helper-text passwordText"></span>
                                 </div>
                             </div>
 
@@ -161,13 +164,13 @@
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">account_circle</i>
                                     <input id="login-email" type="email" class="validate" required>
-                                    <span class="helper-text" data-error="wrong" data-success="right"></span>
+                                    <span class="helper-text helperText"></span>
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">vpn_key</i>
                                     <input id="login-password" type="password" class="validate" required>
-                                    <span class="helper-text" data-error="wrong" data-success="right"></span>
+                                    <span class="helper-text"></span>
                                     <label for="password">Password</label>
                                 </div>
                             </div>

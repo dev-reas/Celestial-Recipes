@@ -61,7 +61,7 @@ const postRecipe = (user) => {
                 recipeId: docRef.id,
             });
             createRecipe.reset();
-            window.location = 'home.html';
+            location.replace('index.html');
         }).catch(err => {
             console.log(err);
         });

@@ -101,23 +101,21 @@ for (let i = 0; i < radioCB.length; i++) {
     });
 }
 
-db.collection("recipe").where("recipeTitle", "==", title).get().then(function (querySnapshot) {
+db.collection("recipe").where("recipeTitle", "==", title).onSnapshot((querySnapshot) => {
     querySnapshot.forEach(function (doc) {
         let event = new Date(doc.data().recipeDate.toDate());
 
 
-        db.collection('users').where('userUID', '==', doc.data().recipeAuthorUID).get().then((querySnapshot) => {
+        db.collection('users').where('userUID', '==', doc.data().recipeAuthorUID).onSnapshot((querySnapshot) => {
             querySnapshot.forEach((sfDoc) => {
                 userImage.setAttribute('src', sfDoc.data().userImg);
                 userName.textContent = 'By: ' + sfDoc.data().userName;
                 authorHref.href = `profile.html?user=${encodeURIComponent(sfDoc.data().userUID)}`;
             });
-        }).catch((error) => {
-            console.log("Error getting documents: ", error);
         });
-        
+
         recipeImg.setAttribute('src', doc.data().recipeImg);
-        
+
         recipeTitle.textContent = doc.data().recipeTitle;
         recipeDate.textContent = event.toLocaleString();
         recipeDesc.textContent = doc.data().recipeDesc;
@@ -251,9 +249,7 @@ db.collection("recipe").where("recipeTitle", "==", title).get().then(function (q
         submitRatings(doc);
         showRating(doc);
     });
-}).catch(function (error) {
-    console.log("Error getting documents: ", error);
-});
+})
 
 let myList = setTimeout(() => {
     const ingredientCB = document.querySelectorAll('.ingredientCB');
@@ -298,9 +294,9 @@ const submitRatings = (params) => {
                 db.collection("avrRatings").where("recipeId", "==", params.id).get().then((querySnapshot) => {
                     querySnapshot.forEach((docRatings) => {
                         var newNumRatings = docRatings.data().numRatings + 1;
-                        var newAverage = parseFloat((docRatings.data().numRatings * docRatings.data().ratingAverage + parseInt(data)) / (newNumRatings));
+                        var newAverage = parseInt((docRatings.data().numRatings * docRatings.data().ratingAverage + parseInt(data)) / (newNumRatings));
                         db.collection('avrRatings').doc(docRatings.id).update({
-                            ratingAverage: parseFloat(newAverage),
+                            ratingAverage: parseFloat(newAverage).toFixed(),
                             numRatings: newNumRatings,
                         }).then(() => {
                             const modal = document.querySelector('#modal1');
@@ -310,8 +306,6 @@ const submitRatings = (params) => {
                             showRating(params);
                         });
                     });
-                }).catch((error) => {
-                    console.log("Error getting documents: ", error);
                 });
             }
 
@@ -358,18 +352,9 @@ const showRating = (docRef) => {
                 ratingOne.push(doc.data().rating);
             }
 
-            var docRef = db.collection("users").doc(doc.data().userId);
-            docRef.get().then((sfDoc) => {
-                if (sfDoc.exists) {
-                    getReviews(doc, sfDoc);
-                } else {
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-
+            getReviews(doc);
             showUserRating(doc);
+
         });
 
         db.collection("avrRatings").where("recipeId", "==", docRef.id).get().then((querySnapshot) => {
@@ -379,7 +364,7 @@ const showRating = (docRef) => {
                 var ratingThreeWidth = 0;
                 var ratingTwoWidth = 0;
                 var ratingOneWidth = 0;
-                numRating.textContent = parseFloat(queries.data().ratingAverage);
+                numRating.textContent = parseFloat(queries.data().ratingAverage).toFixed();
 
                 ratingFiveWidth = (ratingFive.length / queries.data().numRatings) * 100;
                 ratingFourWidth = (ratingFour.length / queries.data().numRatings) * 100;
@@ -393,26 +378,20 @@ const showRating = (docRef) => {
                 progressForTwo.style.width = ratingTwoWidth + '%';
                 progressForOne.style.width = ratingOneWidth + '%';
             });
-        }).catch((error) => {
-            console.log("Error getting documents: ", error);
         });
-
-
-    }).catch((error) => {
-        console.log("Error getting documents: ", error);
     });
 }
 
-const getReviews = (doc, sfDoc) => {
+const getReviews = (doc) => {
     const reviews = document.querySelector('#reviews');
     let event = new Date(doc.data().ratingDate.toDate());
     let html = [
         `
-                    <img src="${sfDoc.data().userImg}" alt="profile-img" class="circle">
-                    <a href="profile.html?user=${encodeURIComponent(sfDoc.data().userUID)}">
-                        <span class="title">${sfDoc.data().userName}</span>
+                    <img alt="profile-img" class="circle">
+                    <a>
+                        <span class="title"></span>
                     </a>
-                    <p class="ratingDateText">${event.toDateString()}</p>
+                    <p class="ratingDateText">${event.toLocaleString()}</p>
                     <p>
                         ${doc.data().comment}
                     </p>
@@ -440,11 +419,20 @@ const showUserRating = (doc) => {
 
         heartRatings.forEach(element => {
             var id = element.parentNode.getAttribute('data-id');
+
             if (doc.id == id) {
                 for (var index = 0; index < doc.data().rating; index++) {
                     element.children[index].style.color = '#b71c1c';
                 }
+
+                db.collection('users').where('userUID', '==', doc.data().userId).get().then((querySnapshot) => {
+                    querySnapshot.docs.forEach((userDocs) => {
+                        element.previousElementSibling.previousElementSibling.previousElementSibling.href = `profile.html?user=${encodeURIComponent(userDocs.data().userUID)}`;
+                        element.previousElementSibling.previousElementSibling.previousElementSibling.getElementsByClassName('title')[0].textContent = userDocs.data().userName;
+                        element.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.setAttribute('src', userDocs.data().userImg);
+                    });
+                });
             }
         });
-    }, 1000);
+    }, 500);
 }

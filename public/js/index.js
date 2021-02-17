@@ -227,7 +227,7 @@ const showUserRating = (doc) => {
             var id = element.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
 
             if (doc.data().recipeId == id) {
-                for (var index = 0; index < doc.data().ratingAverage; index++) {
+                for (var index = 0; index < parseFloat(doc.data().ratingAverage).toFixed(); index++) {
                     element.children[index].style.color = '#b71c1c';
                 }
             }

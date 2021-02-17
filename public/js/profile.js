@@ -169,7 +169,10 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
                                                 recipeImg: downloadURL,
                                                 recipeDate: firebase.firestore.Timestamp.now(),
                                             }).then(() => {
-                                                location.reload();
+                                                $('.recipes').empty();
+                                                const updateModal = document.querySelector('#modal1');
+                                                M.Modal.getInstance(updateModal).close();
+                                                updateProfileDesc.reset();
                                             }).catch(err => {
                                                 console.log(err);
                                             });
@@ -229,7 +232,7 @@ const renderShopping = (recipeId, userShoppingList) => {
     var divHeader = document.createElement('div');
     divHeader.setAttribute('class', 'collapsible-header');
 
-    db.collection('recipe').doc(recipeId).get().then((doc) => {
+    db.collection('recipe').doc(recipeId).onSnapshot((doc) => {
         if (doc.exists) {
             divHeader.textContent = doc.data().recipeTitle;
         }
@@ -293,7 +296,7 @@ const showUserRating = (doc) => {
             var id = element.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
 
             if (doc.data().recipeId == id) {
-                for (var index = 0; index < doc.data().ratingAverage; index++) {
+                for (var index = 0; index < parseFloat(doc.data().ratingAverage).toFixed(); index++) {
                     element.children[index].style.color = '#b71c1c';
                 }
             }
@@ -302,18 +305,16 @@ const showUserRating = (doc) => {
 }
 
 const getComments = (recipeData) => {
-    db.collection("avrRatings").where("recipeId", "==", recipeData.id).get().then((querySnapshot) => {
+    db.collection("avrRatings").where("recipeId", "==", recipeData.id).onSnapshot((querySnapshot) => {
         querySnapshot.forEach((docRef) => {
             getUsers(recipeData, docRef.data().numRatings);
             showUserRating(docRef);
         });
-    }).catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
+    })
 }
 // get users collection and send in function renderRecipe
 const getUsers = (recipeDocs, dataCounter) => {
-    db.collection('users').where('userUID', '==', userId).get().then(snapshot => {
+    db.collection('users').where('userUID', '==', userId).onSnapshot(snapshot => {
         snapshot.docs.forEach(userDocs => {
             renderRecipe(recipeDocs, dataCounter, userDocs);
         });
@@ -323,7 +324,7 @@ const getUsers = (recipeDocs, dataCounter) => {
 // get all collection which have the current user ID
 const ProfileView = () => {
     // userId = user.uid;
-    db.collection('recipe').where("recipeAuthorUID", "==", userId).get().then(snapshot => {
+    db.collection('recipe').where("recipeAuthorUID", "==", userId).onSnapshot(snapshot => {
         snapshot.docs.forEach(doc => {
             getComments(doc);
         });
@@ -332,7 +333,7 @@ const ProfileView = () => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             if (user.uid == userId) {
-                db.collection('shoppingList').where("userId", "==", userId).get().then(snapshot => {
+                db.collection('shoppingList').where("userId", "==", userId).onSnapshot(snapshot => {
                     var recipeGroups = {};
 
                     snapshot.docs.forEach((doc) => {
@@ -369,7 +370,7 @@ const profileDesc = () => {
 
     // });
 
-    db.collection('users').where('userUID', '==', userId).get().then(snapshot => {
+    db.collection('users').where('userUID', '==', userId).onSnapshot(snapshot => {
         if (!snapshot.empty) {
             snapshot.docs.forEach(userDocs => {
                 profileImg.setAttribute('src', userDocs.data().userImg);
@@ -474,7 +475,7 @@ updateEmail.addEventListener('submit', (e) => {
                                 userEmail: updateEmail['email'].value,
                             }).then(() => {
                                 auth.signOut();
-                                location.replace('https://celestial-recipes.web.app/auth.html');
+                                location.replace('auth.html');
                             });
                         }).catch((error) => {
                             // An error happened.
@@ -529,7 +530,7 @@ updatePassword.addEventListener('submit', (e) => {
 
                             user.updatePassword(updatePassword['password'].value).then(function () {
                                 auth.signOut();
-                                location.replace('https://celestial-recipes.web.app/auth.html');
+                                location.replace('auth.html');
                             }).catch(function (error) {
                                 // An error happened.
                             });
@@ -555,7 +556,7 @@ updatePassword.addEventListener('submit', (e) => {
             }
 
             else {
-                location.replace('https://celestial-recipes.web.app/auth.html');
+                location.replace('auth.html');
             }
         }
     });

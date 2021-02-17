@@ -13,13 +13,6 @@ auth.onAuthStateChanged((user) => {
 
     else {
         setupUI();
-        // if (window.location.href == 'http://localhost:5000/profile.html') {
-        //     window.location.replace('auth.html');
-        // }
-
-        // if (window.location.href == 'http://https://celestial-recipes.web.app/profile.html') {
-        //     window.location.replace('auth.html');
-        // }
     }
 });
 

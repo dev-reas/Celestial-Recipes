@@ -10,11 +10,16 @@ loginForm.addEventListener('submit', (e) => {
         var errorCode = error.Code;
         var errorMessage = error.message;
 
-        document.getElementsByClassName("helper-text").innerHTML = + errorMessage;
+        loginForm['login-email'].setAttribute('class', 'invalid');
+        loginForm['login-password'].setAttribute('class', 'invalid');
+        const helper = document.querySelector('.helperText');
+        helper.setAttribute('data-error', errorMessage);
+
+        loginForm['login-password'].value = "";
     }).then((user) => {
         if (user) {
             loginForm.reset();
-            window.location = 'index.html';
+            location.replace('index.html');
         }
     });
 });
@@ -49,7 +54,7 @@ googleSignIn.addEventListener('click', (e) => {
 
             db.collection("users").where("userUID", "==", user.uid).get().then((querySnapshot) => {
                 if (!querySnapshot.empty) {
-                    window.location = 'index.html';
+                    location.replace('index.html');
                 }
 
                 else {
@@ -66,7 +71,7 @@ googleSignIn.addEventListener('click', (e) => {
                         console.log(e);
                     });
 
-                    window.location = 'index.html';
+                    location.replace('index.html');
                 }
             }).catch((error) => {
                 console.log("Error getting documents: ", error);
@@ -78,7 +83,9 @@ googleSignIn.addEventListener('click', (e) => {
             var email = error.email;
             var credential = error.credential;
 
-            console.log(error);
+            const errorText = document.querySelector('#errorMessage');
+            errorText.textContent = error.message;
+            errorText.style.display = 'initial';
         });
 
 });
@@ -113,7 +120,7 @@ facebookSignIn.addEventListener('click', (e) => {
 
             db.collection("users").where("userUID", "==", user.uid).get().then((querySnapshot) => {
                 if (!querySnapshot.empty) {
-                    window.location = 'index.html';
+                    location.replace('index.html');
                 }
 
                 else {
@@ -130,7 +137,7 @@ facebookSignIn.addEventListener('click', (e) => {
                         console.log(e);
                     });
 
-                    window.location = 'index.html';
+                    location.replace('index.html');
                 }
             }).catch((error) => {
                 console.log("Error getting documents: ", error);
@@ -142,7 +149,9 @@ facebookSignIn.addEventListener('click', (e) => {
             var email = error.email;
             var credential = error.credential;
 
-            console.log(error);
+            const errorText = document.querySelector('#errorMessage');
+            errorText.textContent = error.message;
+            errorText.style.display = 'initial';
         });
 });
 

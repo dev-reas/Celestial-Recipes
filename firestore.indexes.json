@@ -43,6 +43,20 @@
       ]
     },
     {
+      "collectionGroup": "ratings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "recipeId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "ratingDate",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "recipe",
       "queryScope": "COLLECTION",
       "fields": [
@@ -108,20 +122,6 @@
         },
         {
           "fieldPath": "recipeDate",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "restaurants",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "category",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "numRatings",
           "order": "DESCENDING"
         }
       ]
