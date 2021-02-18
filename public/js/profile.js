@@ -173,6 +173,7 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
                                                 const updateModal = document.querySelector('#modal1');
                                                 M.Modal.getInstance(updateModal).close();
                                                 updateProfileDesc.reset();
+                                                ProfileView();
                                             }).catch(err => {
                                                 console.log(err);
                                             });
@@ -212,7 +213,8 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
                 if (user.uid == userId) {
                     const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
                     db.collection("recipe").doc(delId).delete().then(function () {
-                        location.reload();
+                        $('.recipes').empty();
+                        updateProfileDesc.reset();
                     }).catch(function (error) {
                         console.error("Error removing document: ", error);
                     });
@@ -387,15 +389,7 @@ const profileDesc = () => {
         else {
             console.log('no document!');
         }
-    }).catch((error) => {
-        console.log("Error getting documents: ", error);
     });
-    // }
-
-    //     else {
-
-    //     }
-    // });
 }
 
 profileDesc();
