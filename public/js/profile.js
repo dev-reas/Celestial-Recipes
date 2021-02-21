@@ -1,6 +1,6 @@
 let paramsString = window.location.search;
 let searchParams = new URLSearchParams(paramsString);
-let userId = decodeURIComponent(searchParams.get('user'));
+let userURLId = decodeURIComponent(searchParams.get('user'));
 
 const recipeList = document.querySelector('.recipes');
 const updateRecipe = document.querySelector('#update-recipe');
@@ -113,7 +113,7 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
 
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid != userId) {
+            if (user.uid != userURLId) {
                 $('.dropdown-trigger').hide();
             }
         }
@@ -150,7 +150,7 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
 
                                 auth.onAuthStateChanged((user) => {
                                     if (user) {
-                                        if (user.uid == userId) {
+                                        if (user.uid == userURLId) {
                                             var ingr = document.getElementById("updateRecipeIngrdnt");
                                             var linesIngr = ingr.value.replace(/\r\n/g, "\n").split("\n");
                                             var area = document.getElementById("updateRecipeInstrct");
@@ -210,11 +210,11 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
     delBtn.addEventListener('click', (e) => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                if (user.uid == userId) {
+                if (user.uid == userURLId) {
                     const delId = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
                     db.collection("recipe").doc(delId).delete().then(function () {
                         $('.recipes').empty();
-                        updateProfileDesc.reset();
+                        ProfileView();
                     }).catch(function (error) {
                         console.error("Error removing document: ", error);
                     });
@@ -326,7 +326,7 @@ const getUsers = (recipeDocs, dataCounter) => {
 // get all collection which have the current user ID
 const ProfileView = () => {
     // userId = user.uid;
-    db.collection('recipe').where("recipeAuthorUID", "==", userId).onSnapshot(snapshot => {
+    db.collection('recipe').where("recipeAuthorUID", "==", userURLId).onSnapshot(snapshot => {
         snapshot.docs.forEach(doc => {
             getComments(doc);
         });
@@ -334,21 +334,29 @@ const ProfileView = () => {
 
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
-                db.collection('shoppingList').where("userId", "==", userId).onSnapshot(snapshot => {
+            if (user.uid == userURLId) {
+                db.collection('shoppingList').where("userId", "==", userURLId).onSnapshot(snapshot => {
                     var recipeGroups = {};
+                    if (snapshot.empty) {
+                        setStatus.style.display = 'none';
+                        deleteShopping.style.display = 'none';
+                    }
 
-                    snapshot.docs.forEach((doc) => {
-                        if (!recipeGroups[doc.data().recipeId]) {
-                            recipeGroups[doc.data().recipeId] = [];
-                        }
-                        recipeGroups[doc.data().recipeId].push(doc.data(), doc.id);
-                    });
+                    else {
+                        setStatus.style.display = 'initial';
+                        deleteShopping.style.display = 'initial';
+                        snapshot.docs.forEach((doc) => {
+                            if (!recipeGroups[doc.data().recipeId]) {
+                                recipeGroups[doc.data().recipeId] = [];
+                            }
+                            recipeGroups[doc.data().recipeId].push(doc.data(), doc.id);
+                        });
 
-                    Object.keys(recipeGroups).forEach(recipeId => {
-                        var userShoppingList = recipeGroups[recipeId];
-                        renderShopping(recipeId, userShoppingList);
-                    });
+                        Object.keys(recipeGroups).forEach(recipeId => {
+                            var userShoppingList = recipeGroups[recipeId];
+                            renderShopping(recipeId, userShoppingList);
+                        });
+                    }
                 });
             }
         }
@@ -372,7 +380,7 @@ const profileDesc = () => {
 
     // });
 
-    db.collection('users').where('userUID', '==', userId).onSnapshot(snapshot => {
+    db.collection('users').where('userUID', '==', userURLId).onSnapshot(snapshot => {
         if (!snapshot.empty) {
             snapshot.docs.forEach(userDocs => {
                 profileImg.setAttribute('src', userDocs.data().userImg);
@@ -424,23 +432,27 @@ updateProfileDesc.addEventListener('submit', (e) => {
     var name = updateProfileDesc['first_name'].value + ' ' + updateProfileDesc['last_name'].value;
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
+            if (user.uid == userURLId) {
                 user.updateProfile({
                     displayName: name,
                     photoURL: userPhotoDownURL
                 });
 
-                db.collection('users').doc(user.uid).update({
-                    userName: name,
-                    userContact: updateProfileDesc['contact'].value,
-                    userJob: updateProfileDesc['occupation'].value,
-                    userAddress: updateProfileDesc['address'].value,
-                    userImg: userPhotoDownURL,
-                }).then(() => {
-                    const profileModal = document.querySelector('#modal-profile');
-                    M.Modal.getInstance(profileModal).close();
-                    updateProfileDesc.reset();
-                    profileDesc();
+                db.collection("users").where("userUID", "==", user.uid).get().then((querySnapshot) => {
+                    querySnapshot.docs.forEach((docs) => {
+                        db.collection('users').doc(docs.id).update({
+                            userName: name,
+                            userContact: updateProfileDesc['contact'].value,
+                            userJob: updateProfileDesc['occupation'].value,
+                            userAddress: updateProfileDesc['address'].value,
+                            userImg: userPhotoDownURL,
+                        }).then(() => {
+                            const profileModal = document.querySelector('#modal-profile');
+                            M.Modal.getInstance(profileModal).close();
+                            updateProfileDesc.reset();
+                            profileDesc();
+                        });
+                    });
                 });
             }
         }
@@ -454,7 +466,7 @@ updateEmail.addEventListener('submit', (e) => {
     e.preventDefault();
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
+            if (user.uid == userURLId) {
                 const helperText = document.querySelectorAll('.helper-text');
                 const oldEmailText = document.querySelector('.oldEmailText');
                 console.log(user.email);
@@ -500,7 +512,7 @@ updatePassword.addEventListener('submit', (e) => {
     e.preventDefault();
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
+            if (user.uid == userURLId) {
                 const spanPassword = document.querySelectorAll('.spanPassword');
                 const oldPasswordText = document.querySelector('.oldPasswordText');
                 const passwordText = document.querySelector('.passwordText');
@@ -569,33 +581,28 @@ setStatus.addEventListener('click', (e) => {
 
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
+            if (user.uid == userURLId) {
                 let ingredientStatus = false;
                 ingredientArray.forEach(element => {
                     var sfDocRef = db.collection("shoppingList").doc(element);
 
-                    return db.runTransaction((transaction) => {
-                        return transaction.get(sfDocRef).then((sfDoc) => {
-                            if (!sfDoc.exists) {
-                                throw "Document does not exist!";
-                            }
+                    sfDocRef.get().then((sfDoc) => {
+                        if (sfDoc.data().status == ingredientStatus) {
+                            ingredientStatus = true;
+                            sfDocRef.update({
+                                status: ingredientStatus
+                            }).then(() => {
+                                $('#shoppingList').empty();
+                                ProfileView();
+                            });
+                        }
 
-                            else {
-                                if (sfDoc.data().status == ingredientStatus) {
-                                    ingredientStatus = true;
-                                    transaction.update(sfDocRef, { status: ingredientStatus });
-                                }
-
-                                else {
-                                    transaction.update(sfDocRef, { status: ingredientStatus });
-                                }
-                            }
-                            location.reload();
-                        });
-                    }).then(() => {
-                        console.log("Transaction successfully committed!");
-                    }).catch((error) => {
-                        console.log("Transaction failed: ", error);
+                        else {
+                            sfDocRef.update({ status: ingredientStatus }).then(() => {
+                                $('#shoppingList').empty();
+                                ProfileView();
+                            });
+                        }
                     });
                 });
 
@@ -619,24 +626,13 @@ deleteShopping.addEventListener('click', (e) => {
 
     auth.onAuthStateChanged((user) => {
         if (user) {
-            if (user.uid == userId) {
-                let ingredientStatus = false;
+            if (user.uid == userURLId) {
                 ingredientArray.forEach(element => {
                     var sfDocRef = db.collection("shoppingList").doc(element);
 
-                    return db.runTransaction((transaction) => {
-                        return transaction.get(sfDocRef).then((sfDoc) => {
-                            if (!sfDoc.exists) {
-                                throw "Document does not exist!";
-                            }
-
-                            transaction.delete(sfDocRef);
-                            location.reload();
-                        });
-                    }).then(() => {
-                        console.log("Transaction successfully committed!");
-                    }).catch((error) => {
-                        console.log("Transaction failed: ", error);
+                    sfDocRef.delete().then(() => {
+                        $('#shoppingList').empty();
+                        ProfileView();
                     });
                 });
 
@@ -653,7 +649,7 @@ const dropdownOptions = document.querySelectorAll('.dropdownOptions');
 
 auth.onAuthStateChanged((user) => {
     if (user) {
-        if (user.uid != userId) {
+        if (user.uid != userURLId) {
             setStatus.style.display = 'initial';
             deleteShopping.style.display = 'initial';
         }

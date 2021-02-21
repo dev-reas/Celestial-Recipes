@@ -24,9 +24,8 @@ service cloud.firestore {
      {
      		allow read: if request.auth.uid != null && request.auth.uid == resource.data.userId;
         allow create: if request.auth.uid != null;
-        allow update: if false;
-        allow delete: 
-        if request.auth.uid != null && request.auth.uid == resource.data.userUID;
+        allow update, delete: 
+        if request.auth.uid != null && request.auth.uid == resource.data.userId;
      }
      
      match /ratings/{ratingsId}
