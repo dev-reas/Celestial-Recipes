@@ -26,7 +26,7 @@ const heartReaction = document.querySelector('#heartReaction');
 const numRating = document.querySelector('.numRating');
 
 shoppingAlternate.setAttribute('class', 'hide');
-shoppingListBtn.textContent = 'Add this all these ingredients to shopping list';
+shoppingListBtn.textContent = 'Add ingredients to shopping list';
 heartReaction.textContent = "The default rating is 5 hearts";
 
 function changeText() {
@@ -208,40 +208,9 @@ db.collection("recipe").where("recipeTitle", "==", title).onSnapshot((querySnaps
 
                     }
                 });
-
-                shoppingIdText.textContent = $('.ingredientCB:checked').length + ' ingredients are added to shopping list';
             }
-
-            else {
-                $("input:checkbox[name=ingredientList]:not(:checked)").each(function () {
-                    ingredientArray.push($(this).val());
-                });
-
-                auth.onAuthStateChanged((user) => {
-                    if (user) {
-                        const promises = [];
-                        let i = 0;
-                        ingredientArray.forEach(element => {
-                            i += 1;
-                            promises.push(db.collection('shoppingList').add({
-                                userShoppingList: element,
-                                order: i,
-                                recipeId: doc.id,
-                                status: false,
-                                userId: user.uid,
-                            }));
-                        });
-
-                        Promise.all(promises).then(results => {
-
-                        }).catch(err => console.log(err.message));
-                    } else {
-
-                    }
-                });
-                shoppingIdText.textContent = 'All ingredients are added to shopping list';
-            }
-
+            
+            shoppingIdText.textContent = $('.ingredientCB:checked').length + ' ingredients are added to shopping list';
             shoppingAlternate.removeAttribute('class', 'hide');
             shoppingListBtn.setAttribute('class', 'hide');
         });
@@ -310,9 +279,8 @@ const submitRatings = (params) => {
             }
 
             else {
-                location.replace('http://localhost:5000/auth.html');
+                location.replace('auth.html');
 
-                // location.replace('http://https://celestial-recipes.web.app/auth.html');
             }
         });
     });
