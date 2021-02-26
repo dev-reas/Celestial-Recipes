@@ -1,0 +1,27 @@
+.picClass {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10%;
+  
+}
+
+.picClass img {
+width: 2200px;
+  height: auto;
+  
+  
+}
+
+.ParaClass{
+margin-top: 10%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+color: white;
+text-indent: 2em;
+text-shadow: 2px 2px #000000;
+
+}

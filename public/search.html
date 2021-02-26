@@ -9,12 +9,15 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/only-index.css">
 </head>
 
 <body>
     <nav class="z-depth-3">
         <div class="nav-wrapper">
-            <a class="brand-logo center">Logo</a>
+            <a class="brand-logo center">
+                <img src="assets/logo.png" alt="" class="logo">
+            </a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li>
@@ -26,8 +29,10 @@
                 </li>
             </ul>
             <ul class="right hide-on-med-and-down">
-                <li class="active"><a href="#">
-                        <i class="material-icons right">filter_list</i>Filter and find your taste</a>
+                <li>
+                    <a href="search.html">
+                        <i class="material-icons right">filter_list</i>Filter and find your taste
+                    </a>
                 </li>
             </ul>
         </div>
@@ -46,15 +51,12 @@
         </li>
         <li class="logged-out"><a class="waves-effect" href="auth.html"><i
                     class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
-        <li class="logged-in"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
-                Recipes</a></li>
         <li class="logged-in"><a class="waves-effect profileAuth"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
             <div class="divider"></div>
         </li>
         <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
-        <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
         <li class="logged-in"><a class="waves-effect" href="#!" id="web"><i class="material-icons">close</i>Sign
                 out</a></li>
     </ul>
@@ -72,15 +74,17 @@
         </li>
         <li class="logged-out"><a class="waves-effect" href="auth.html"><i
                     class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
-        <li class="logged-in"><a class="waves-effect" href="post.html"><i class="material-icons">post_add</i>Share your
-                Recipes</a></li>
         <li class="logged-in"><a class="waves-effect profileAuth"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
             <div class="divider"></div>
         </li>
         <li><a class="waves-effect" href="index.html"><i class="material-icons">house</i>Home</a></li>
-        <li><a class="waves-effect" href="#!"><i class="material-icons">restaurant</i>About Us</a></li>
+        <li>
+            <a href="search.html">
+                <i class="material-icons">filter_list</i>Filter and find your taste
+            </a>
+        </li>
         <li class="logged-in"><a class="waves-effect" href="#!" id="mobile"><i class="material-icons">close</i>Sign
                 out</a></li>
     </ul>

@@ -160,7 +160,7 @@ db.collection("recipe").where("recipeTitle", "==", title).onSnapshot((querySnaps
                     <p>
                         <label>
                             <input type="checkbox" />
-                            <span class="black-text">Step${' ' + k + ': ' + element}</span>
+                            <span class="black-text">${element}</span>
                         </label>
                     </p>
                 `
@@ -180,9 +180,8 @@ db.collection("recipe").where("recipeTitle", "==", title).onSnapshot((querySnaps
             e.preventDefault();
 
             var ingredientArray = [];
-
-            if (ingredientCB2.checked) {
-                $("input:checkbox[name=ingredientList]:checked").each(function () {
+            //  if (ingredientCB2.checked) {
+                $(".ingredientCB:checked").each(function () {
                     ingredientArray.push($(this).val());
                 });
 
@@ -204,13 +203,12 @@ db.collection("recipe").where("recipeTitle", "==", title).onSnapshot((querySnaps
                         Promise.all(promises).then(results => {
 
                         }).catch(err => console.log(err.message));
-                    } else {
-
                     }
                 });
-            }
-            
-            shoppingIdText.textContent = $('.ingredientCB:checked').length + ' ingredients are added to shopping list';
+
+                shoppingIdText.textContent = $('.ingredientCB:checked').length + ' ingredients are added to shopping list';
+            // }
+
             shoppingAlternate.removeAttribute('class', 'hide');
             shoppingListBtn.setAttribute('class', 'hide');
         });

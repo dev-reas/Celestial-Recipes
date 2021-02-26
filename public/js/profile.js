@@ -338,7 +338,7 @@ const ProfileView = () => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             if (user.uid == userURLId) {
-                db.collection('shoppingList').where("userId", "==", userURLId).onSnapshot(snapshot => {
+                db.collection('shoppingList').where("userId", "==", user.uid).onSnapshot(snapshot => {
                     var recipeGroups = {};
                     if (snapshot.empty) {
                         setStatus.style.display = 'none';
