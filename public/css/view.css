@@ -223,7 +223,7 @@ body {
 }
 
 #recipeTitle {
-    font-size: 3vw;
+    font-size: 4vh;
 }
 
 #recipeDate,
@@ -413,4 +413,61 @@ body {
 .star-rating label:hover,
 .star-rating label:hover~label {
     color: #fc0;
+}
+
+@media only screen and (max-width : 320px) {
+    #recipeTitle {
+        font-size: 8vw;
+        margin-top: 0;
+    }
+
+    .heartRatings .card--rating-star .material-icons {
+        font-size: 3vw;
+    }
+
+    .avatar .title {
+        font-size: 3.5vw !important;
+    }
+
+    .ratingDateText {
+        font-size: 2vw !important;
+    }
+}
+
+@media only screen and (max-width : 375px) {
+    #recipeTitle {
+        font-size: 8vw;
+        margin-top: 0;
+    }
+
+    .heartRatings .card--rating-star .material-icons {
+        font-size: 3vw;
+    }
+
+    .avatar .title {
+        font-size: 3.5vw !important;
+    }
+
+    .ratingDateText {
+        font-size: 2vw !important;
+    }
+}
+
+@media only screen and (max-width : 425px) {
+    #recipeTitle {
+        font-size: 8vw;
+        margin-top: 0;
+    }
+
+    .heartRatings .card--rating-star .material-icons {
+        font-size: 3vw;
+    }
+
+    .avatar .title {
+        font-size: 3.5vw !important;
+    }
+
+    .ratingDateText {
+        font-size: 2vw !important;
+    }
 }

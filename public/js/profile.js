@@ -7,6 +7,7 @@ const updateRecipe = document.querySelector('#update-recipe');
 const ShoppingList = document.querySelector('#shoppingList');
 const setStatus = document.querySelector('#setStatus');
 const deleteShopping = document.querySelector('#deleteShopping');
+const profileBtns = document.querySelectorAll('.profile-btn');
 
 // render recipes
 const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
@@ -111,16 +112,18 @@ const renderRecipe = (recipeDocs, ratingsCounter, userDocs) => {
         });
     });
 
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            if (user.uid != userURLId) {
-                $('.dropdown-trigger').hide();
-            }
-        }
-    })
-
     fragment.appendChild(div);
     recipeList.appendChild(fragment);
+
+    setTimeout(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                if (user.uid != userURLId) {
+                    $('.dropdownOptions').hide();
+                }
+            }
+        });
+    }, 1500);
 
     const editBtn = document.getElementById('edit' + recipeDocs.id);
 
@@ -316,7 +319,7 @@ const getComments = (recipeData) => {
 }
 // get users collection and send in function renderRecipe
 const getUsers = (recipeDocs, dataCounter) => {
-    db.collection('users').where('userUID', '==', userId).onSnapshot(snapshot => {
+    db.collection('users').where('userUID', '==', userURLId).onSnapshot(snapshot => {
         snapshot.docs.forEach(userDocs => {
             renderRecipe(recipeDocs, dataCounter, userDocs);
         });
@@ -649,15 +652,22 @@ const dropdownOptions = document.querySelectorAll('.dropdownOptions');
 
 auth.onAuthStateChanged((user) => {
     if (user) {
-        if (user.uid != userURLId) {
+        if (user.uid == userURLId) {
             setStatus.style.display = 'initial';
             deleteShopping.style.display = 'initial';
+            profileBtns.forEach(item => {
+                item.style.display = 'initial';
+            });
+        }
+        else {
+            setStatus.style.display = 'none';
+            deleteShopping.style.display = 'none';
+            shoppingTab.style.display = 'none';
+            shoppingNavTab.style.display = 'none';
+            profileBtns.forEach(item => {
+                item.style.display = 'none';
+            });
         }
     }
-    else {
-        setStatus.style.display = 'none';
-        deleteShopping.style.display = 'none';
-        shoppingTab.style.display = 'none';
-        shoppingNavTab.style.display = 'none';
-    }
 });
+

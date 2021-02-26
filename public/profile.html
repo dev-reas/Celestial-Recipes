@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/profile.css">
-
+    <link rel="stylesheet" href="css/only-profile.css">
 </head>
 
 <body>
@@ -74,9 +74,9 @@
                 </div>
             </div>
         </li>
-        <li class="logged-out"><a class="waves-effect profileAuth"><i
-                    class="material-icons">person_add_alt_1</i>Join the Community!</a></li>
-        <li class="logged-in"><a class="waves-effect" href="profile.html"><i class="material-icons">person</i>Check your
+        <li class="logged-out"><a class="waves-effect profileAuth"><i class="material-icons">person_add_alt_1</i>Join
+                the Community!</a></li>
+        <li class="logged-in"><a class="waves-effect profileAuth"><i class="material-icons">person</i>Check your
                 Recipes</a></li>
         <li>
             <div class="divider"></div>
@@ -118,85 +118,86 @@
                 <div class="right-side">
                     <div class="nav">
                         <ul>
-                            <li onclick="tabs(0)" class="user-post active">Hello, it's all about me
-                                <i class="tiny material-icons left">perm_identity</i></li>
+                            <li onclick="tabs(0)" class="user-post active">My info
+                                <i class="tiny material-icons">perm_identity</i></li>
                             <li onclick="tabs(1)" class="user-post">Recipe
-                                <i class="tiny material-icons left">restaurant</i>
+                                <i class="tiny material-icons">restaurant</i>
                             </li>
                             <li onclick="tabs(2)" class="user-post" id="shoppingNavTab">Shopping List
-                                <i class="tiny material-icons left">shopping_cart</i>
+                                <i class="tiny material-icons">shopping_cart</i>
                             </li>
                         </ul>
                     </div>
                     <div class="profile-body">
                         <div class="profile-posts tab">
-                            <!-- <div class="left-side"> -->
-                            <div class="profile-side">
-                                <table class="responsive-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Overview</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <i class="material-icons left">badge</i>
-                                                <p class="user-mail" id="dataName"></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="material-icons left">contact_mail</i>
-                                                <p class="user-mail" id="dataEmail">
+                            <div class="container">
+                                <div class="profile-side">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Overview</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">badge</i>
+                                                    <p class="user-mail" id="dataName"></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">contact_mail</i>
+                                                    <p class="user-mail" id="dataEmail">
 
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="material-icons left">contact_phone</i>
-                                                <p class="user-mail" id="dataNumber"></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="material-icons left">home</i>
-                                                <p class="user-mail" id="dataAddress"></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="material-icons left">work</i>
-                                                <p class="user-mail" id="dataJob">
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">contact_phone</i>
+                                                    <p class="user-mail" id="dataNumber"></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">home</i>
+                                                    <p class="user-mail" id="dataAddress"></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="material-icons left">work</i>
+                                                    <p class="user-mail" id="dataJob">
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
-                                <div class="profileBtns">
-                                    <div class="profile-btn" style="margin-top: 10px;">
-                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Profile
-                                        </a>
-                                    </div>
-                                    <div class="profile-btn" style="margin-top: 10px;">
-                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-email">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Email
-                                        </a>
-                                    </div>
-                                    <div class="profile-btn" style="margin-top: 10px;">
-                                        <a class="waves-effect waves-light btn modal-trigger" href="#modal-password">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Password
-                                        </a>
+                                    <div class="profileBtns">
+                                        <div class="profile-btn" style="margin-top: 10px;">
+                                            <a class="waves-effect waves-light btn modal-trigger" href="#modal-profile">
+                                                <i class="fas fa-edit"></i>
+                                                Edit Profile
+                                            </a>
+                                        </div>
+                                        <div class="profile-btn" style="margin-top: 10px;">
+                                            <a class="waves-effect waves-light btn modal-trigger" href="#modal-email">
+                                                <i class="fas fa-edit"></i>
+                                                Edit Email
+                                            </a>
+                                        </div>
+                                        <div class="profile-btn" style="margin-top: 10px;">
+                                            <a class="waves-effect waves-light btn modal-trigger"
+                                                href="#modal-password">
+                                                <i class="fas fa-edit"></i>
+                                                Edit Password
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="profile-reviews tab">

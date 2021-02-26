@@ -1,5 +1,5 @@
 const recipeList = document.querySelector('#recipes');
-const recipeRatingsList = document.querySelector('.recipeRatings');
+const recipeRatingsList = document.querySelector('#recipeRatings');
 
 db.collection('avrRatings').orderBy('ratingAverage', 'desc').orderBy('numRatings', 'desc').limit(2).get().then(snapshot => {
     snapshot.docs.forEach(doc => {
@@ -152,7 +152,7 @@ const renderRecipeRatings = (recipeDocs, avrRatingsDocs, userDocs) => {
     let event = new Date(recipeDocs.data().recipeDate.toDate());
     let html = [
         `
-            <div class="card horizontal" data-id="${recipeDocs.id}">
+            <div class="card horizontal ratingCardsResponsive" data-id="${recipeDocs.id}">
                 <div class="card-image hoverable waves-effect waves-block waves-light">
                     <img class="activator responsive-img" src="${recipeDocs.data().recipeImg}">
                 </div>
@@ -211,12 +211,23 @@ const renderRecipeRatings = (recipeDocs, avrRatingsDocs, userDocs) => {
 
     let fragment = new DocumentFragment();
     let div = document.createElement('div');
-    div.setAttribute('class', 'col l6 m6 s6');
+    div.setAttribute('class', 'col l6 m12 s12');
     div.setAttribute('data-id', recipeDocs.id);
 
     div.innerHTML = html;
     fragment.appendChild(div);
     recipeRatingsList.appendChild(fragment);
+
+    $(window).resize(function () {
+        var width = $(window).width();
+        if (width <= 768) {
+            $('.ratingCardsResponsive').removeClass('horizontal');
+        }
+
+        else {
+            $('.ratingCardsResponsive').addClass('horizontal');
+        }
+    }).resize();
 }
 
 
@@ -234,4 +245,3 @@ const showUserRating = (doc) => {
         });
     }, 1500);
 }
-

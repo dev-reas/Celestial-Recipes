@@ -117,10 +117,10 @@ h1 {
 }
 
 .forgot {
-  margin-top: 10px;
-  text-align: left;
-  margin-left: 15px;
-
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  display: flex;
 }
 
 .forgot a {
@@ -221,7 +221,6 @@ textarea.materialize-textarea.invalid:focus,
   margin-left: 3rem;
   width: 92%;
   width: calc(100% - 3rem);
-  color: white;
 }
 
 
@@ -285,4 +284,72 @@ textarea.materialize-textarea.invalid:focus,
   text-align: center;
   display: none;
   font-size: 1.5vw;
+}
+
+@media (max-width: 320px) {
+
+  #signup h1,
+  #login h1 {
+    font-size: 8vw;
+  }
+
+  #signup .row .col {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .btn-flat {
+    font-size: 2vh;
+  }
+}
+
+@media (max-width: 375px) {
+
+  #signup h1,
+  #login h1 {
+    font-size: 8vw;
+  }
+
+  #signup .row .col {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .btn-flat {
+    font-size: 2vh;
+  }
+}
+
+@media (max-width: 425px) {
+
+  #signup h1,
+  #login h1 {
+    font-size: 8vw;
+  }
+
+  #signup .row .col {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .btn-flat {
+    font-size: 2vw;
+  }
+}
+
+@media (max-width: 768px) {
+
+  #signup h1,
+  #login h1 {
+    font-size: 8vw;
+  }
+
+  #signup .row .col {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .btn-flat {
+    font-size: 2vw;
+  }
 }

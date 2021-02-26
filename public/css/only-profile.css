@@ -1,0 +1,97 @@
+.card .card-image img {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+@media (max-width: 320px) {
+    .card .card-image img {
+        width: 100%;
+        height: 50vh;
+        object-fit: cover;
+    }
+
+    #profileName {
+        font-size: 8vw;
+    }
+
+    .user-post {
+        font-size: 3.5vw;
+    }
+
+    .profileBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 375px) {
+    .card .card-image img {
+        width: 100%;
+        height: 50vh;
+        object-fit: cover;
+    }
+
+    #profileName {
+        font-size: 8vw;
+    }
+
+    .user-post {
+        font-size: 3.5vw;
+    }
+
+    .profileBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 425px) {
+    .card .card-image img {
+        width: 100%;
+        height: 50vh;
+        object-fit: cover;
+    }
+
+    #profileName {
+        font-size: 8vw;
+    }
+
+    .user-post {
+        font-size: 3.5vw;
+    }
+
+    .profileBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .card .card-image img {
+        width: 100%;
+        height: 50vh;
+        object-fit: cover;
+    }
+
+    #profileName {
+        font-size: 6vw;
+    }
+
+    .user-post {
+        font-size: 2.5vw;
+    }
+
+    .profileBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
